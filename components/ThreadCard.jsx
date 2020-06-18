@@ -34,11 +34,11 @@ export default function ThreadCard(props) {
       }}
     >
       <Card.Content>
-        <Container >
+        <Container>
           <UserHead user={thread.user} />
-          <Text h6 style={{marginTop: 7}}>
-            {moment(thread.tweets[0].date)
-              .tz(thread.tweets[0].timezone)
+          <Text h6 style={{ marginTop: 7 }}>
+            {moment
+              .tz(thread.tweets[0].date, thread.tweets[0].timezone)
               .format("MMMM Do YYYY, h:mma z")}
           </Text>
         </Container>
