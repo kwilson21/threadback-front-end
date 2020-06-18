@@ -9,6 +9,7 @@ export const allThreadsQuery = `
           mentions
           urls
           photos
+          timezone
         }
         user{
           status

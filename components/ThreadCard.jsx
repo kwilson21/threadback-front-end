@@ -38,7 +38,7 @@ export default function ThreadCard(props) {
           <UserHead user={thread.user} />
           <Text h6 style={{marginTop: 7}}>
             {moment(thread.tweets[0].date)
-              .tz(moment.tz.guess())
+              .tz(thread.tweets[0].timezone)
               .format("MMMM Do YYYY, h:mma z")}
           </Text>
         </Container>
