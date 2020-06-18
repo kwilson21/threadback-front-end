@@ -15,7 +15,7 @@ import {
 } from "@zeit-ui/react";
 import Router from "next/router";
 import TweetGroup from "./TweetGroup";
-import moment from "moment";
+import moment from "moment-timezone";
 
 export default function ThreadCard(props) {
   const { thread } = props;
@@ -36,7 +36,7 @@ export default function ThreadCard(props) {
       <Card.Content>
         <UserHead user={thread.user} />
       </Card.Content>
-      <Divider y={0}>{moment(thread.tweets[0].date).fromNow()}</Divider>
+      <Divider y={0}>{moment(thread.tweets[0].date).tz(moment.tz.guess()).fromNow()}</Divider>
       <Card.Content style={{ maxHeight: "190px", overflow: "hidden" }}>
         <TweetGroup tweets={thread.tweets.slice(0, 2)} size={"h4"} />
       </Card.Content>
