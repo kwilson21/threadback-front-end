@@ -34,9 +34,16 @@ export default function ThreadCard(props) {
       }}
     >
       <Card.Content>
-        <UserHead user={thread.user} />
+        <Container >
+          <UserHead user={thread.user} />
+          <Text h6 style={{marginTop: 7}}>
+            {moment(thread.tweets[0].date)
+              .tz(moment.tz.guess())
+              .format("MMMM Do YYYY, h:mma z")}
+          </Text>
+        </Container>
       </Card.Content>
-      <Divider y={0}>{moment(thread.tweets[0].date).tz(moment.tz.guess()).fromNow()}</Divider>
+      <Divider y={0}></Divider>
       <Card.Content style={{ maxHeight: "190px", overflow: "hidden" }}>
         <TweetGroup tweets={thread.tweets.slice(0, 2)} size={"h4"} />
       </Card.Content>
