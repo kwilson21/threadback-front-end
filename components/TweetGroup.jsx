@@ -7,13 +7,11 @@ import { Grid, Text, Image, Link, Display } from "@zeit-ui/react";
 
 import JsxParser from "react-jsx-parser";
 
-const youtubeOpts = {
-  height: "390",
-  width: "640",
-  playerVards: {
-    autoplay: 0,
-  },
-};
+if (typeof String.prototype.trim === "undefined") {
+  String.prototype.trim = function () {
+    return String(this).replace(/^\s+|\s+$/g, "");
+  };
+}
 
 const formatTweet = (tweet, size) => {
   const { text, mentions, urls, photos } = tweet;
@@ -53,6 +51,10 @@ const formatTweet = (tweet, size) => {
           } else if (word.startsWith("@") && word.includes(mention)) {
             let splitWord = word.split(`@${mention}`);
             splitWord[0] = `<Link color href="https://twitter.com/${mention}">@${mention}</Link>`;
+            if (splitWord.length > 1 && splitWord[1].includes("@")) {
+              splitWord[1] = splitWord[1].replace("@", "").trim();
+              splitWord[1] = `<Link color href="https://twitter.com/${splitWord[1]}"> @${splitWord[1]}</Link>`;
+            }
             return splitWord.join("");
           } else {
             return str;
