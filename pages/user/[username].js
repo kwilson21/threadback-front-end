@@ -5,23 +5,22 @@ import {
   Col,
   Spacer,
   Container,
-  Divider,
   useToasts,
   Spinner,
   useModal,
   Row,
-  Text,
 } from "@zeit-ui/react";
 import { useRouter } from "next/router";
 import ThreadCardGroup from "../../components/ThreadCardGroup";
 import RefreshUserButton from "../../components/RefreshUserButton";
 import { getAUserQuery } from "../../queries/getAUserQuery";
-import { useQuery } from "graphql-hooks";
+import { useQuery, useMutation } from "graphql-hooks";
 import { Fragment } from "react";
 import Error from "next/error";
 import UserMissingModal from "../../components/UserMissingModal";
 import SearchBox from "../../components/SearchBox";
 import { useEffect, useState } from "react";
+import { refreshThreadsMutation } from "../../queries/refreshThreadsMutation";
 
 export default function User() {
   const router = useRouter();
@@ -33,7 +32,11 @@ export default function User() {
     variables: { offset: 0, limit: 1, usernames: [username] },
   });
 
-  if (error) {
+  const [refreshUser, refreshRes] = useMutation(refreshThreadsMutation, {
+    variables: { username: username },
+  });
+
+  if (error || refreshRes.error) {
     setToast({
       text: "An error has occured while fetching data",
       type: "error",
@@ -113,8 +116,12 @@ export default function User() {
                     </Container>
                     <Container style={{ marginTop: 15 }}>
                       <RefreshUserButton
-                        username={username}
-                        status={user.status}
+                        refreshUser={refreshUser}
+                        status={
+                          refreshRes.data
+                            ? refreshRes.data.refresh.status
+                            : user.status
+                        }
                       />
                     </Container>
                     <Spacer x={1} />

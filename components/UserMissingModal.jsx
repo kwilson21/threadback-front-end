@@ -1,7 +1,6 @@
 import { useMutation } from "graphql-hooks";
 import { refreshThreadsMutation } from "../queries/refreshThreadsMutation";
 import { Modal, useToasts } from "@zeit-ui/react";
-import { useState } from "react";
 import { User } from "@zeit-ui/react-icons";
 import Router from "next/router";
 

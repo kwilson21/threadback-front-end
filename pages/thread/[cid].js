@@ -1,13 +1,12 @@
 import Head from "next/head";
 import UserHead from "../../components/UserHead";
-import { useQuery } from "graphql-hooks";
+import { useQuery, useMutation } from "graphql-hooks";
 import { getAThreadQuery } from "../../queries/getAThreadQuery";
 import {
   Grid,
   Col,
   Spacer,
   Container,
-  Divider,
   useToasts,
   Spinner,
   Row,
@@ -19,6 +18,7 @@ import TweetGroup from "../../components/TweetGroup";
 import RefreshUserButton from "../../components/RefreshUserButton";
 import { Fragment } from "react";
 import SearchBox from "../../components/SearchBox";
+import { refreshThreadsMutation } from "../../queries/refreshThreadsMutation";
 
 export default function Thread() {
   const router = useRouter();
@@ -28,6 +28,13 @@ export default function Thread() {
 
   const { loading, error, data } = useQuery(getAThreadQuery, {
     variables: { offset: 0, limit: 1, conversationIds: [cid] },
+  });
+
+  const [refreshUser, refreshRes] = useMutation(refreshThreadsMutation, {
+    variables: {
+      username:
+        data && data.threads ? data.threads.items[0].user.username : null,
+    },
   });
 
   if (error) {
@@ -90,8 +97,12 @@ export default function Thread() {
                       </Container>
                       <Container style={{ marginTop: 15 }}>
                         <RefreshUserButton
-                          username={thread.user.username}
-                          status={thread.user.status}
+                          refreshUser={refreshUser}
+                          status={
+                            refreshRes.data
+                              ? refreshRes.data.refresh.status
+                              : thread.user.status
+                          }
                         />
                       </Container>
                       <Spacer x={1} />

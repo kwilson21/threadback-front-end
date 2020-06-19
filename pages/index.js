@@ -1,14 +1,6 @@
 import Head from "next/head";
 
-import {
-  Grid,
-  Col,
-  Spacer,
-  Container,
-  Divider,
-  Text,
-  Link,
-} from "@zeit-ui/react";
+import { Grid, Col, Spacer, Container, Divider, Text } from "@zeit-ui/react";
 
 import ThreadCardGroup from "../components/ThreadCardGroup";
 import SearchBox from "../components/SearchBox";

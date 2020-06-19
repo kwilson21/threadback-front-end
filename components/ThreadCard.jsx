@@ -1,18 +1,5 @@
 import UserHead from "../components/UserHead";
-import {
-  ZeitProvider,
-  CssBaseline,
-  Grid,
-  Card,
-  Col,
-  Spacer,
-  Container,
-  Divider,
-  Text,
-  Button,
-  Link,
-  Tooltip,
-} from "@zeit-ui/react";
+import { Card, Container, Divider, Text, Button, Link } from "@zeit-ui/react";
 import Router from "next/router";
 import TweetGroup from "./TweetGroup";
 import moment from "moment-timezone";
@@ -25,6 +12,7 @@ export default function ThreadCard(props) {
     .reverse();
 
   return (
+    // <Link onClick={() => Router.push(`/thread/${thread.conversationId}`)}>
     <Card
       shadow
       hoverable
@@ -37,9 +25,7 @@ export default function ThreadCard(props) {
         <Container>
           <UserHead user={thread.user} />
           <Text h6 style={{ marginTop: 7 }}>
-            {moment
-              .tz(thread.tweets[0].date, thread.tweets[0].timezone)
-              .format("MMMM Do YYYY, h:mma z")}
+            {moment.utc(thread.tweets[0].date).format("MMMM Do YYYY, h:mma z")}
           </Text>
         </Container>
       </Card.Content>
@@ -58,5 +44,6 @@ export default function ThreadCard(props) {
         </Button>
       </Card.Content>
     </Card>
+    // </Link>
   );
 }

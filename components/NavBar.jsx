@@ -1,4 +1,4 @@
-import { Tabs, Container, Spacer, Link } from "@zeit-ui/react";
+import { Tabs, Container, Spacer } from "@zeit-ui/react";
 import Router from "next/router";
 
 export default function NavBar() {
