@@ -69,7 +69,7 @@ const formatTweet = (tweet, size) => {
       if (url.includes("status") && url.includes("twitter")) {
         const tweetId = url.split("/").slice(-1);
         jsx = jsx.replace(url, `<Tweet tweetId="${tweetId}"/>`);
-      } else if (url.includes("youtube")) {
+      } else if (url.includes("youtube") || url.includes("youtu.be")) {
         const videoId = url.split("watch?v=").slice(-1);
         jsx = jsx.replace(
           url,

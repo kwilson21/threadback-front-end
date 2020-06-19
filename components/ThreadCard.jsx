@@ -13,14 +13,7 @@ export default function ThreadCard(props) {
 
   return (
     // <Link onClick={() => Router.push(`/thread/${thread.conversationId}`)}>
-    <Card
-      shadow
-      hoverable
-      style={{
-        overflow: "hidden",
-        maxWidth: "449px",
-      }}
-    >
+    <Card shadow hoverable>
       <Card.Content>
         <Container>
           <UserHead user={thread.user} />
@@ -30,11 +23,10 @@ export default function ThreadCard(props) {
         </Container>
       </Card.Content>
       <Divider y={0}></Divider>
-      <Card.Content style={{ height: "250px", overflow: "hidden" }}>
+      <Card.Content style={{ height: "300px", overflow: "hidden" }}>
         <TweetGroup tweets={thread.tweets.slice(0, 3)} size={"h4"} />
       </Card.Content>
       <Divider y={0} />
-
       <Card.Content style={{ marginLeft: "auto", marginRight: "auto" }}>
         <Button
           auto

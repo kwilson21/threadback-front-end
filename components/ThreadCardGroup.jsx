@@ -48,14 +48,14 @@ export default function ThreadCardGroup(props) {
 
   if (!username) {
     res = useQuery(allThreadsQuery, {
-      variables: { offset: offsetCount, limit: 18, direction: orderDir },
+      variables: { offset: offsetCount, limit: 16, direction: orderDir },
       updateData,
     });
   } else {
     res = useQuery(getUserThreadsQuery, {
       variables: {
         offset: offsetCount,
-        limit: 18,
+        limit: 16,
         usernames: [username],
         direction: orderDir,
       },
@@ -72,7 +72,7 @@ export default function ThreadCardGroup(props) {
     });
   }
 
-  if (loading)
+  if (loading && !data)
     return (
       <Container style={{ padding: 20 }} justify="center">
         <Spacer x={8} />
@@ -117,13 +117,17 @@ export default function ThreadCardGroup(props) {
       </Grid> */}
       {data &&
         data.threads.items.map((thread) => (
-          <Grid key={thread.conversationId}>
+          <Grid xs={24} sm={12} lg={6} key={thread.conversationId}>
             <ThreadCard thread={thread} />
           </Grid>
         ))}
       <Col align="center" style={{ marginTop: 20, marginBottom: 20 }}>
-        {hasMoreThreads && !loading && (
-          <Button auto onClick={() => setOffsetCount(offsetCount + 1)}>
+        {hasMoreThreads && (
+          <Button
+            loading={loading}
+            auto
+            onClick={() => setOffsetCount(offsetCount + 1)}
+          >
             Show more
           </Button>
         )}

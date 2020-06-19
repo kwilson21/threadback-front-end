@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { Grid, Col, Spacer, Container, Divider, Text } from "@zeit-ui/react";
+import { Grid, Col, Container, Divider, Text } from "@zeit-ui/react";
 
 import ThreadCardGroup from "../components/ThreadCardGroup";
 import SearchBox from "../components/SearchBox";
@@ -42,7 +42,7 @@ export default function Home() {
               marginBottom: 10,
               marginTop: 5,
               visibility: scroll ? "visible" : "hidden",
-              margin: "0 auto",
+              margin: "0 auto"
             }}
           >
             <SearchBox />
