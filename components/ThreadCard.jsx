@@ -44,8 +44,8 @@ export default function ThreadCard(props) {
         </Container>
       </Card.Content>
       <Divider y={0}></Divider>
-      <Card.Content style={{ maxHeight: "190px", overflow: "hidden" }}>
-        <TweetGroup tweets={thread.tweets.slice(0, 2)} size={"h4"} />
+      <Card.Content style={{ height: "250px", overflow: "hidden" }}>
+        <TweetGroup tweets={thread.tweets.slice(0, 3)} size={"h4"} />
       </Card.Content>
       <Divider y={0} />
 
