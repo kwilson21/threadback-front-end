@@ -9,7 +9,7 @@ export const getAThreadQuery = `
           mentions
           urls
           photos
-          timezeon
+          timezone
         }
         user{
           status
