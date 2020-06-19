@@ -44,15 +44,7 @@ export default function Thread() {
     });
   }
 
-  if (loading && !data) {
-    return (
-      <Container style={{ padding: 20 }} justify="center">
-        <Spacer x={8} />
-        <Spinner size="large" />
-        <Spacer x={8} />
-      </Container>
-    );
-  } else if (!data) {
+  if (loading) {
     return (
       <Container style={{ padding: 20 }} justify="center">
         <Spacer x={8} />
@@ -71,19 +63,17 @@ export default function Thread() {
       {data === undefined && !error ? (
         <Error statusCode={404} />
       ) : (
-        <Container style={{ padding: 20 }}>
-          <Spacer x={8} />
-
+        <Container style={{ padding: 20, margin: "0 auto", marginTop: 80 }}>
           <Head>
             <title>ThreadBack | Thread by @{thread.user}</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
 
-          <Col span={13} style={{ margin: "0 auto", width: "100%" }}>
+          <Col>
             <Grid.Container gap={2} justify="center">
               <Fragment>
                 <Grid xs={24}>
-                  <Container justify="center">
+                  <Container>
                     <Row
                       style={{
                         position: "fixed",
@@ -97,6 +87,7 @@ export default function Thread() {
                       </Container>
                       <Container style={{ marginTop: 15 }}>
                         <RefreshUserButton
+                          loading={refreshRes.loading}
                           refreshUser={refreshUser}
                           status={
                             refreshRes.data
@@ -105,7 +96,7 @@ export default function Thread() {
                           }
                         />
                       </Container>
-                      <Spacer x={1} />
+
                       <Container style={{ marginTop: 4 }}>
                         <SearchBox />
                       </Container>
@@ -116,7 +107,6 @@ export default function Thread() {
               </Fragment>
             </Grid.Container>
           </Col>
-          <Spacer x={8} />
         </Container>
       )}
     </Fragment>

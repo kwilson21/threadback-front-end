@@ -3,15 +3,28 @@ import Router from "next/router";
 
 export default function NavBar() {
   return (
-    <Container>
+    <Container
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: "90px",
+        zIndex: 999,
+        backgroundColor: "rgb(255, 255, 255)",
+        boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 15px 0px",
+      }}
+    >
       <Tabs
         initialValue="1"
         style={{
-          paddingTop: 40,
-          zIndex: 999,
-          position: "fixed",
+          maxWidth: "750pt",
+          display: "flex",
+          alignItems: "flex-end",
+          zIndex: "900",
+          padding: "0px 16pt",
+          overflow: "auto",
           width: "100%",
-          background: "#FFFFFF",
         }}
         onChange={() => {
           Router.push("/");

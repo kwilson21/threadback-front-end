@@ -16,9 +16,9 @@ export default function ThreadCard(props) {
     <Card
       shadow
       hoverable
-      width="320px"
       style={{
         overflow: "hidden",
+        maxWidth: "449px",
       }}
     >
       <Card.Content>

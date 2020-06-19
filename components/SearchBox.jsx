@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { Grid, Button, Input } from "@zeit-ui/react";
 import { useState } from "react";
 import Router from "next/router";
+import { Search } from "@zeit-ui/react-icons";
 
 export default function SearchBox() {
   const [username, setUsername] = useState("");
@@ -24,17 +25,22 @@ export default function SearchBox() {
     <Fragment>
       <Grid xs={24}>
         <Input
+          icon={<Search />}
+          width="100%"
           clearable
-          style={{ minWidth: "250px" }}
           size="large"
-          placeholder="Username"
+          placeholder="Enter a username"
           onChange={handleChange}
           onClearClick={handleClear}
           onKeyPress={handleEnter}
         />
       </Grid>
       <Grid>
-        <Button auto ghost onClick={() => Router.push(`/user/${username}`)}>
+        <Button
+          auto
+          type="success-light"
+          onClick={() => Router.push(`/user/${username}`)}
+        >
           Find
         </Button>
       </Grid>

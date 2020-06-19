@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { Button, Tooltip } from "@zeit-ui/react";
 
 export default function RefreshUserButton(props) {
-  const { status, refreshUser } = props;
+  const { status, refreshUser, loading } = props;
   return (
     <Fragment>
       <Tooltip
@@ -16,7 +16,12 @@ export default function RefreshUserButton(props) {
         placement="bottomStart"
         style={{ float: "right" }}
       >
-        <Button auto disabled={status === "Pending"} onClick={refreshUser}>
+        <Button
+          auto
+          loading={loading}
+          disabled={status === "Pending"}
+          onClick={refreshUser}
+        >
           Update
         </Button>
       </Tooltip>

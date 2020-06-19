@@ -19,7 +19,6 @@ import { Fragment } from "react";
 import Error from "next/error";
 import UserMissingModal from "../../components/UserMissingModal";
 import SearchBox from "../../components/SearchBox";
-import { useEffect, useState } from "react";
 import { refreshThreadsMutation } from "../../queries/refreshThreadsMutation";
 
 export default function User() {
@@ -43,29 +42,7 @@ export default function User() {
     });
   }
 
-  const [scroll, setScrolling] = useState(false);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-  }, []);
-
-  const handleScroll = (e) => {
-    if (window.pageYOffset > 95) {
-      setScrolling(true);
-    } else {
-      setScrolling(false);
-    }
-  };
-
-  if (loading && !data) {
-    return (
-      <Container style={{ padding: 20 }} justify="center">
-        <Spacer x={8} />
-        <Spinner size="large" />
-        <Spacer x={8} />
-      </Container>
-    );
-  } else if (!data) {
+  if (loading) {
     return (
       <Container style={{ padding: 20 }} justify="center">
         <Spacer x={8} />
@@ -92,17 +69,16 @@ export default function User() {
           />
         </Fragment>
       ) : (
-        <Container style={{ padding: 20 }}>
-          <Spacer x={8} />
+        <Container style={{ padding: 20, margin: "0 auto", marginTop: 80 }}>
           <Head>
             <title>ThreadBack | @{username}'s threads</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
 
-          <Col span={13} style={{ margin: "0 auto", width: "100%" }}>
+          <Col>
             <Grid.Container gap={2} justify="center">
               <Grid xs={24}>
-                <Container justify="center">
+                <Container>
                   <Row
                     style={{
                       position: "fixed",
@@ -116,6 +92,7 @@ export default function User() {
                     </Container>
                     <Container style={{ marginTop: 15 }}>
                       <RefreshUserButton
+                        loading={refreshRes.loading}
                         refreshUser={refreshUser}
                         status={
                           refreshRes.data
@@ -124,7 +101,7 @@ export default function User() {
                         }
                       />
                     </Container>
-                    <Spacer x={1} />
+
                     <Container style={{ marginTop: 4 }}>
                       <SearchBox />
                     </Container>
@@ -136,7 +113,6 @@ export default function User() {
               <ThreadCardGroup username={username} />
             </Grid.Container>
           </Col>
-          <Spacer x={8} />
         </Container>
       )}
     </Fragment>

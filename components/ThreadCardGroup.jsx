@@ -72,9 +72,9 @@ export default function ThreadCardGroup(props) {
     });
   }
 
-  if (loading && !data)
+  if (loading)
     return (
-      <Container style={{ padding: 20 }}>
+      <Container style={{ padding: 20 }} justify="center">
         <Spacer x={8} />
         <Spinner size="large" />
         <Spacer x={8} />
@@ -85,8 +85,8 @@ export default function ThreadCardGroup(props) {
 
   return (
     <Fragment>
-      <Grid xs={24}>
-        {/* <Container
+      {/* <Grid xs={24}>
+        <Container
           align="center"
           style={
             scroll
@@ -113,13 +113,8 @@ export default function ThreadCardGroup(props) {
               </Link>
             )
           ) : null}
-        </Container> */}
-      </Grid>
-      {loading && !data ? (
-        <Container justify="center">
-          <Spinner size="large" />
         </Container>
-      ) : null}
+      </Grid> */}
       {data &&
         data.threads.items.map((thread) => (
           <Grid key={thread.conversationId}>
@@ -127,7 +122,6 @@ export default function ThreadCardGroup(props) {
           </Grid>
         ))}
       <Col align="center" style={{ marginTop: 20, marginBottom: 20 }}>
-        {loading && <Spinner size="large" />}
         {hasMoreThreads && !loading && (
           <Button auto onClick={() => setOffsetCount(offsetCount + 1)}>
             Show more
