@@ -94,6 +94,10 @@ const formatTweet = (tweet, size) => {
 export default function TweetGroup(props) {
   const { tweets, size } = props;
 
+  const sortedTweets = tweets
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .reverse();
+
   let tweetSize = size;
 
   if (size === undefined) {
@@ -101,7 +105,7 @@ export default function TweetGroup(props) {
   }
   return (
     <Fragment>
-      {tweets.map((tweet, idx) => {
+      {sortedTweets.map((tweet, idx) => {
         return (
           <Grid xs={24} key={idx}>
             {formatTweet(tweet, tweetSize)}
