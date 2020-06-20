@@ -48,14 +48,14 @@ export default function ThreadCardGroup(props) {
 
   if (!username) {
     res = useQuery(allThreadsQuery, {
-      variables: { offset: offsetCount, limit: 16, direction: orderDir },
+      variables: { offset: offsetCount, limit: 15, direction: orderDir },
       updateData,
     });
   } else {
     res = useQuery(getUserThreadsQuery, {
       variables: {
         offset: offsetCount,
-        limit: 16,
+        limit: 15,
         usernames: [username],
         direction: orderDir,
       },
