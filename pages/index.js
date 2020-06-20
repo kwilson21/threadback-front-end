@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <Page>
-      <Container style={{ margin: "0 auto", marginTop: 10 }}>
+      <Container style={{ margin: "0 auto" }}>
         <Head>
           <title>Threadback | Home</title>
           <link rel="icon" href="/favicon.ico" />

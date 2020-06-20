@@ -12,6 +12,8 @@ import Router from "next/router";
 import { Search } from "@zeit-ui/react-icons";
 import { useQuery } from "graphql-hooks";
 import { getAllUsersQuery } from "../queries/getAllUsersQuery";
+import map from "lodash/map";
+import filter from "lodash/filter";
 
 export default function SearchBox() {
   const [username, setUsername] = useState("");
@@ -31,7 +33,7 @@ export default function SearchBox() {
   useEffect(() => {
     if (data)
       setAllOptions(
-        data.users.items.map((user) => {
+        map(data.users.items, (user) => {
           return { label: user.username, value: user.username };
         })
       );
@@ -40,7 +42,7 @@ export default function SearchBox() {
   const searchHandler = (currentValue) => {
     if (!currentValue) return setOptions([]);
     setOptions(
-      allOptions.filter((item) =>
+      filter(allOptions, (item) =>
         item.value.toLowerCase().includes(currentValue.toLowerCase())
       )
     );

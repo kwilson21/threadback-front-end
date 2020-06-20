@@ -77,7 +77,7 @@ export default function User() {
         </Fragment>
       ) : (
         <Page>
-          <Container style={{ margin: "0 auto", marginTop: 10 }}>
+          <Container style={{ margin: "0 auto" }}>
             <Head>
               <title>ThreadBack | @{username}'s threads</title>
               <link rel="icon" href="/favicon.ico" />

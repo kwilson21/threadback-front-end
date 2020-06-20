@@ -3,7 +3,10 @@ import getUrls from "get-urls";
 import { Tweet } from "react-twitter-widgets";
 import YouTube from "react-youtube";
 
-import { Grid, Text, Image, Link, Display } from "@zeit-ui/react";
+import { Grid, Text, Image, Link, Display, Spacer } from "@zeit-ui/react";
+
+import map from "lodash/map";
+import forEach from "lodash/forEach";
 
 import JsxParser from "react-jsx-parser";
 
@@ -27,34 +30,32 @@ const formatTweet = (tweet, size) => {
   const extractedUrls = [...extractedUrlSet];
 
   if (mentions.length > 0) {
-    mentions.forEach((mention) => {
+    forEach(mentions, (mention) => {
       let splitTweet = jsx.split(" ");
-      jsx = splitTweet
-        .map((str) => {
-          const word = str.toLowerCase();
-          if (word.startsWith("@") && word === mention) {
-            return `<Link color href="https://twitter.com/${mention}">${str}</Link>`;
-          } else if (word.startsWith("@") && word.includes(mention)) {
-            let splitWord = word.split(`@${mention}`);
-            splitWord[0] = `<Link color href="https://twitter.com/${mention}">@${mention}</Link>`;
-            if (splitWord.length > 1 && splitWord[1].includes("@")) {
-              splitWord[1] = splitWord[1].replace("@", "").trim();
-              splitWord[1] = `<Link color href="https://twitter.com/${splitWord[1]}"> @${splitWord[1]}</Link>`;
-            }
-            return splitWord.join("");
-          } else {
-            return str;
+      jsx = map(splitTweet, (str) => {
+        const word = str.toLowerCase();
+        if (word.startsWith("@") && word === mention) {
+          return `<Link color href="https://twitter.com/${mention}">${str}</Link>`;
+        } else if (word.startsWith("@") && word.includes(mention)) {
+          let splitWord = word.split(`@${mention}`);
+          splitWord[0] = `<Link color href="https://twitter.com/${mention}">@${mention}</Link>`;
+          if (splitWord.length > 1 && splitWord[1].includes("@")) {
+            splitWord[1] = splitWord[1].replace("@", "").trim();
+            splitWord[1] = `<Link color href="https://twitter.com/${splitWord[1]}"> @${splitWord[1]}</Link>`;
           }
-        })
-        .join(" ");
+          return splitWord.join("");
+        } else {
+          return str;
+        }
+      }).join(" ");
     });
   }
 
   if (urls.length > 0) {
-    urls.forEach((url) => {
+    forEach(urls, (url) => {
       if (url.includes("status") && url.includes("twitter")) {
         const tweetId = url.split("/").slice(-1);
-        jsx = jsx.replace(url, `<Tweet tweetId="${tweetId}"/>`);
+        jsx = jsx.replace(url, `<Tweet  tweetId="${tweetId}"/>`);
       } else if (url.includes("youtube") || url.includes("youtu.be")) {
         const videoId = url.split("watch?v=").slice(-1);
         jsx = jsx.replace(
@@ -68,20 +69,21 @@ const formatTweet = (tweet, size) => {
   }
 
   if (extractedUrls.length > 0) {
-    for (let i = 0; i < extractedUrls.length; i++) {
-      const jsxUrl = `<Link color href="${extractedUrls[i]}">${extractedUrls[i]}</Link>`;
-      if (extractedUrls[i].includes("pic.twitter")) {
+    forEach(extractedUrls, (extractedUrl) => {
+      const jsxUrl = `<Link color href="${extractedUrl}">${extractedUrl}</Link>`;
+      if (extractedUrl.includes("pic.twitter")) {
         let imageStr = "";
-        photos.forEach(
+        forEach(
+          photos,
           (url) =>
             (imageStr =
               imageStr + `<Display><Image src="${url}"></Image></Display>`)
         );
-        jsx = jsx.replace(extractedUrls[i], imageStr);
+        jsx = jsx.replace(extractedUrl, imageStr);
       } else if (!jsx.includes(jsxUrl)) {
-        jsx = jsx.replace(extractedUrls[i], jsxUrl);
+        jsx = jsx.replace(extractedUrl, jsxUrl);
       }
-    }
+    });
   }
 
   jsx = `<Text ${size} span>${jsx}</Text>`;
@@ -108,7 +110,7 @@ export default function TweetGroup(props) {
   }
   return (
     <Fragment>
-      {sortedTweets.map((tweet, idx) => {
+      {map(sortedTweets, (tweet, idx) => {
         return (
           <Grid xs={24} key={idx}>
             {formatTweet(tweet, tweetSize)}

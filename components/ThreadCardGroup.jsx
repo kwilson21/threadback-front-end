@@ -13,6 +13,7 @@ import {
   useToasts,
   Link,
 } from "@zeit-ui/react";
+import map from "lodash/map";
 import { ChevronUp, ChevronDown } from "@zeit-ui/react-icons";
 
 // use options.updateData to append the new page of posts to our current list of posts
@@ -86,7 +87,7 @@ export default function ThreadCardGroup(props) {
   return (
     <Fragment>
       {data &&
-        data.threads.items.map((thread) => (
+        map(data.threads.items, (thread) => (
           <Grid xs={24} sm={12} lg={8} key={thread.conversationId}>
             <ThreadCard thread={thread} />
           </Grid>

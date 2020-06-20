@@ -69,7 +69,7 @@ export default function Thread() {
         <Error statusCode={404} />
       ) : (
         <Page>
-          <Container style={{ margin: "0 auto", marginTop: 10 }}>
+          <Container style={{ margin: "0 auto" }}>
             <Head>
               <title>ThreadBack | Thread by @{thread.user.username}</title>
               <link rel="icon" href="/favicon.ico" />
@@ -129,9 +129,7 @@ export default function Thread() {
               <Divider align="center" />
 
               <Grid.Container gap={2}>
-                <Grid xs>
-                  <TweetGroup tweets={thread.tweets} />
-                </Grid>
+                <TweetGroup tweets={thread.tweets} />
               </Grid.Container>
             </Page.Content>
           </Container>
