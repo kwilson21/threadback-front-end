@@ -1,25 +1,13 @@
 import Head from "next/head";
 
-import { Grid, Col, Container, Divider, Text } from "@zeit-ui/react";
+import { Grid, Col, Container, Divider, Text, Spacer } from "@zeit-ui/react";
 
 import ThreadCardGroup from "../components/ThreadCardGroup";
 import SearchBox from "../components/SearchBox";
-import { useEffect, useState } from "react";
+import useScrollPast from "../hooks/useScrollPast";
 
 export default function Home() {
-  const [scroll, setScrolling] = useState(false);
-
-  const handleScroll = (e) => {
-    if (window.pageYOffset > 115) {
-      setScrolling(true);
-    } else {
-      setScrolling(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-  }, [handleScroll]);
+  const scroll = useScrollPast(115);
 
   return (
     <Container style={{ padding: 20, margin: "0 auto", marginTop: 80 }}>
@@ -30,6 +18,7 @@ export default function Home() {
 
       <Col style={{ margin: "0 auto" }}>
         <Grid.Container gap={2}>
+          <Spacer y={2} />
           <Grid xs={24}>
             <Text h2>Search</Text>
           </Grid>
@@ -42,7 +31,7 @@ export default function Home() {
               marginBottom: 10,
               marginTop: 5,
               visibility: scroll ? "visible" : "hidden",
-              margin: "0 auto"
+              margin: "0 auto",
             }}
           >
             <SearchBox />
@@ -57,6 +46,7 @@ export default function Home() {
           <Grid xs={24}>
             <Text h2>Recent</Text>
           </Grid>
+
           <ThreadCardGroup scroll={scroll} />
         </Grid.Container>
       </Col>

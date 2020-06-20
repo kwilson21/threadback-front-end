@@ -1,5 +1,5 @@
 import { Fragment, useState } from "react";
-import { useQuery, useManualQuery } from "graphql-hooks";
+import { useQuery } from "graphql-hooks";
 import { allThreadsQuery } from "../queries/allThreadsQuery";
 import { getUserThreadsQuery } from "../queries/getUserThreadsQuery";
 import ThreadCard from "../components/ThreadCard";
@@ -74,7 +74,7 @@ export default function ThreadCardGroup(props) {
 
   if (loading && !data)
     return (
-      <Container style={{ padding: 20 }} justify="center">
+      <Container style={{ padding: 20, margin:"0 auto" }} justify="center">
         <Spacer x={8} />
         <Spinner size="large" />
         <Spacer x={8} />
@@ -85,36 +85,6 @@ export default function ThreadCardGroup(props) {
 
   return (
     <Fragment>
-      {/* <Grid xs={24}>
-        <Container
-          align="center"
-          style={
-            scroll
-              ? {
-                  position: "fixed",
-                  top: 0,
-                  zIndex: 999,
-                  marginBottom: 10,
-                  marginTop: 23,
-                  marginLeft: 420,
-                  float: "none",
-                }
-              : {}
-          }
-        >
-          {data && data.threads.items.length > 0 ? (
-            orderDir === "DESC" ? (
-              <Link onClick={handleOrderDir}>
-                <ChevronDown />
-              </Link>
-            ) : (
-              <Link onClick={handleOrderDir}>
-                <ChevronUp />
-              </Link>
-            )
-          ) : null}
-        </Container>
-      </Grid> */}
       {data &&
         data.threads.items.map((thread) => (
           <Grid xs={24} sm={12} lg={6} key={thread.conversationId}>
@@ -124,6 +94,8 @@ export default function ThreadCardGroup(props) {
       <Col align="center" style={{ marginTop: 20, marginBottom: 20 }}>
         {hasMoreThreads && (
           <Button
+            ghost
+            type="success"
             loading={loading}
             auto
             onClick={() => setOffsetCount(offsetCount + 1)}

@@ -18,24 +18,24 @@ const formatTweet = (tweet, size) => {
 
   let jsx = text;
 
-  const urls_set = getUrls(text, {
+  const extractedUrlSet = getUrls(text, {
     requireSchemeOrWww: false,
     normalizeProtocol: false,
     stripProtocol: true,
   });
 
-  const _urls = [...urls_set];
+  const extractedUrls = [...extractedUrlSet];
 
-  if (_urls.length > 0 && photos.length > 0) {
-    for (let i = 0; i < _urls.length; i++) {
-      if (_urls[i].includes("pic.twitter")) {
+  if (extractedUrls.length > 0 && photos.length > 0) {
+    for (let i = 0; i < extractedUrls.length; i++) {
+      if (extractedUrls[i].includes("pic.twitter")) {
         let imageStr = "";
         photos.forEach(
           (url) =>
             (imageStr =
               imageStr + `<Display><Image src="${url}"></Image></Display>`)
         );
-        jsx = jsx.replace(_urls[i], imageStr);
+        jsx = jsx.replace(extractedUrls[i], imageStr);
       }
     }
   }
@@ -100,7 +100,7 @@ export default function TweetGroup(props) {
 
   let tweetSize = size;
 
-  if (size === undefined) {
+  if (!size) {
     tweetSize = "h3";
   }
   return (

@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-
+import { RefreshCw } from "@zeit-ui/react-icons";
 import { Button, Tooltip } from "@zeit-ui/react";
 
 export default function RefreshUserButton(props) {
@@ -18,11 +18,14 @@ export default function RefreshUserButton(props) {
       >
         <Button
           auto
+          ghost
+          type="success"
+          icon={<RefreshCw />}
           loading={loading}
           disabled={status === "Pending"}
           onClick={refreshUser}
         >
-          Update
+          Refresh
         </Button>
       </Tooltip>
     </Fragment>

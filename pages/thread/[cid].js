@@ -10,6 +10,8 @@ import {
   useToasts,
   Spinner,
   Row,
+  Divider,
+  Text,
 } from "@zeit-ui/react";
 import Error from "next/error";
 
@@ -19,11 +21,15 @@ import RefreshUserButton from "../../components/RefreshUserButton";
 import { Fragment } from "react";
 import SearchBox from "../../components/SearchBox";
 import { refreshThreadsMutation } from "../../queries/refreshThreadsMutation";
+import useWindowSize from "../../hooks/useWindowSize";
+import useScrollPast from "../../hooks/useScrollPast";
 
 export default function Thread() {
   const router = useRouter();
   const { cid } = router.query;
 
+  const size = useWindowSize();
+  const scroll = useScrollPast(325);
   const [toasts, setToast] = useToasts();
 
   const { loading, error, data } = useQuery(getAThreadQuery, {
@@ -46,7 +52,7 @@ export default function Thread() {
 
   if (loading) {
     return (
-      <Container style={{ padding: 20 }} justify="center">
+      <Container style={{ padding: 20, margin:"0 auto" }} justify="center">
         <Spacer x={8} />
         <Spinner size="large" />
         <Spacer x={8} />
@@ -60,7 +66,7 @@ export default function Thread() {
 
   return (
     <Fragment>
-      {data === undefined && !error ? (
+      {!data && !error ? (
         <Error statusCode={404} />
       ) : (
         <Container style={{ padding: 20, margin: "0 auto", marginTop: 80 }}>
@@ -68,43 +74,64 @@ export default function Thread() {
             <title>ThreadBack | Thread by @{thread.user}</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
+          <Col style={{ margin: "0 auto" }}>
+            <Grid.Container gap={2}>
+              <Grid xs={24}>
+                <Container
+                  style={{
+                    position: "fixed",
+                    top: 0,
+                    zIndex: 999,
+                    marginBottom: 10,
+                    marginTop: 5,
+                    visibility: scroll ? "visible" : "hidden",
+                    margin: "0 auto",
+                  }}
+                >
+                  <SearchBox />
+                </Container>
+              </Grid>
+              <Grid xs={24}>
+                <Container
+                  justify="center"
+                  style={{ visibility: scroll ? "hidden" : "visible" }}
+                >
+                  <UserHead
+                    user={thread.user}
+                    showBio={size.width > 967 ? true : false}
+                  />
+                  <RefreshUserButton
+                    loading={refreshRes.loading}
+                    refreshUser={refreshUser}
+                    status={
+                      refreshRes.data
+                        ? refreshRes.data.refresh.status
+                        : thread.user.status
+                    }
+                  />
+                </Container>
+              </Grid>
+            </Grid.Container>
 
-          <Col>
-            <Grid.Container gap={2} justify="center">
-              <Fragment>
+            <Divider align="center" />
+            <Container
+              justify="center"
+              style={{ visibility: scroll ? "hidden" : "visible" }}
+            >
+              <Grid.Container gap={2}>
                 <Grid xs={24}>
-                  <Container>
-                    <Row
-                      style={{
-                        position: "fixed",
-                        top: 0,
-                        zIndex: 999,
-                        height: "40px",
-                      }}
-                    >
-                      <Container style={{ marginTop: 31 }}>
-                        <UserHead user={thread.user} />
-                      </Container>
-                      <Container style={{ marginTop: 15 }}>
-                        <RefreshUserButton
-                          loading={refreshRes.loading}
-                          refreshUser={refreshUser}
-                          status={
-                            refreshRes.data
-                              ? refreshRes.data.refresh.status
-                              : thread.user.status
-                          }
-                        />
-                      </Container>
-
-                      <Container style={{ marginTop: 4 }}>
-                        <SearchBox />
-                      </Container>
-                    </Row>
-                  </Container>
+                  <Text h2>Search</Text>
                 </Grid>
+
+                <SearchBox />
+              </Grid.Container>
+            </Container>
+            <Divider align="center" />
+
+            <Grid.Container gap={2}>
+              <Grid xs>
                 <TweetGroup tweets={thread.tweets} />
-              </Fragment>
+              </Grid>
             </Grid.Container>
           </Col>
         </Container>
