@@ -86,63 +86,61 @@ export default function User() {
             </Head>
 
             <Page.Content>
-              <Col style={{ margin: "0 auto" }}>
-                <Grid.Container gap={2}>
-                  <Grid xs={24}>
-                    <Container
-                      style={{
-                        position: "fixed",
-                        top: 0,
-                        zIndex: 999,
-                        marginBottom: 10,
-                        marginTop: 5,
-                        visibility: scroll ? "visible" : "hidden",
-                        margin: "0 auto",
-                      }}
-                    >
-                      <SearchBox />
-                    </Container>
-                  </Grid>
-                  <Grid xs={24}>
-                    <Container
-                      justify="center"
-                      style={{ visibility: scroll ? "hidden" : "visible" }}
-                    >
-                      <UserHead
-                        user={user}
-                        showBio={size.width > 967 ? true : false}
-                      />
-                      <RefreshUserButton
-                        loading={refreshRes.loading}
-                        refreshUser={refreshUser}
-                        status={
-                          refreshRes.data
-                            ? refreshRes.data.refresh.status
-                            : user.status
-                        }
-                      />
-                    </Container>
-                  </Grid>
-                </Grid.Container>
-
-                <Divider align="center" />
-                <Container
-                  justify="center"
-                  style={{ visibility: scroll ? "hidden" : "visible" }}
-                >
-                  <Grid.Container gap={2}>
-                    <Grid xs={24}>
-                      <Text h2>Search</Text>
-                    </Grid>
-
+              <Grid.Container gap={2}>
+                <Grid xs={24}>
+                  <Container
+                    style={{
+                      position: "fixed",
+                      top: 0,
+                      zIndex: 999,
+                      marginBottom: 10,
+                      marginTop: 5,
+                      visibility: scroll ? "visible" : "hidden",
+                      margin: "0 auto",
+                    }}
+                  >
                     <SearchBox />
-                  </Grid.Container>
-                </Container>
-                <Divider align="center" />
+                  </Container>
+                </Grid>
+                <Grid xs={24}>
+                  <Container
+                    justify="center"
+                    style={{ visibility: scroll ? "hidden" : "visible" }}
+                  >
+                    <UserHead
+                      user={user}
+                      showBio={size.width > 967 ? true : false}
+                    />
+                    <RefreshUserButton
+                      loading={refreshRes.loading}
+                      refreshUser={refreshUser}
+                      status={
+                        refreshRes.data
+                          ? refreshRes.data.refresh.status
+                          : user.status
+                      }
+                    />
+                  </Container>
+                </Grid>
+              </Grid.Container>
+
+              <Divider align="center" />
+              <Container
+                justify="center"
+                style={{ visibility: scroll ? "hidden" : "visible" }}
+              >
                 <Grid.Container gap={2}>
-                  <ThreadCardGroup username={username} />
+                  <Grid xs={24}>
+                    <Text h2>Search</Text>
+                  </Grid>
+
+                  <SearchBox />
                 </Grid.Container>
-              </Col>
+              </Container>
+              <Divider align="center" />
+              <Grid.Container gap={2}>
+                <ThreadCardGroup username={username} />
+              </Grid.Container>
             </Page.Content>
           </Container>
         </Page>

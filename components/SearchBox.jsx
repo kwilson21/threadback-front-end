@@ -1,18 +1,49 @@
-import { Fragment } from "react";
-import { Grid, Button, Input } from "@zeit-ui/react";
+import { Fragment, useEffect } from "react";
+import {
+  Grid,
+  Button,
+  Container,
+  Spacer,
+  AutoComplete,
+  Spinner,
+} from "@zeit-ui/react";
 import { useState } from "react";
 import Router from "next/router";
 import { Search } from "@zeit-ui/react-icons";
+import { useQuery } from "graphql-hooks";
+import { getAllUsersQuery } from "../queries/getAllUsersQuery";
 
 export default function SearchBox() {
   const [username, setUsername] = useState("");
+  const [allOptions, setAllOptions] = useState([]);
+  const [options, setOptions] = useState([]);
 
-  const handleChange = (e) => {
-    setUsername(e.target.value);
+  const { loading, error, data } = useQuery(getAllUsersQuery);
+
+  const handleChange = (currentValue) => {
+    if (currentValue) setUsername(currentValue);
   };
 
   const handleClear = () => {
     setUsername("");
+  };
+
+  useEffect(() => {
+    if (data)
+      setAllOptions(
+        data.users.items.map((user) => {
+          return { label: user.username, value: user.username };
+        })
+      );
+  }, [options]);
+
+  const searchHandler = (currentValue) => {
+    if (!currentValue) return setOptions([]);
+    setOptions(
+      allOptions.filter((item) =>
+        item.value.toLowerCase().includes(currentValue.toLowerCase())
+      )
+    );
   };
 
   const handleEnter = (e) => {
@@ -21,10 +52,26 @@ export default function SearchBox() {
     }
   };
 
+  if (error) {
+    setToast({
+      text: "An error has occured while fetching data",
+      type: "error",
+    });
+  }
+
+  if (loading)
+    return (
+      <Container style={{ padding: 20, margin: "0 auto" }} justify="center">
+        <Spacer x={8} />
+        <Spinner size="large" />
+        <Spacer x={8} />
+      </Container>
+    );
+
   return (
     <Fragment>
       <Grid xs={24}>
-        <Input
+        <AutoComplete
           icon={<Search />}
           width="100%"
           clearable
@@ -32,8 +79,14 @@ export default function SearchBox() {
           placeholder="Enter a username"
           onChange={handleChange}
           onClearClick={handleClear}
+          options={options}
           onKeyPress={handleEnter}
-        />
+          onSearch={searchHandler}
+        >
+          <AutoComplete.Empty>
+            <span>No users...</span>
+          </AutoComplete.Empty>
+        </AutoComplete>
       </Grid>
       <Grid>
         <Button
