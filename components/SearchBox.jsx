@@ -82,6 +82,7 @@ export default function SearchBox() {
           options={options}
           onKeyPress={handleEnter}
           onSearch={searchHandler}
+          onSelect={(v) => Router.push(`/user/${v}`)}
         >
           <AutoComplete.Empty>
             <span>No users...</span>

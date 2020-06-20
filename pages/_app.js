@@ -4,12 +4,13 @@ import { ZeitProvider, CssBaseline } from "@zeit-ui/react";
 import NavBar from "../components/NavBar";
 import memCache from "graphql-hooks-memcache";
 
+const client = new GraphQLClient({
+  url: process.env.NEXT_PUBLIC_GRAPHQL_URL,
+  cache: memCache(),
+  logErrors: false,
+});
+
 function MyApp({ Component, pageProps }) {
-  const client = new GraphQLClient({
-    url: process.env.NEXT_PUBLIC_GRAPHQL_URL,
-    cache: memCache(),
-    logErrors: false,
-  });
   return (
     <ClientContext.Provider value={client}>
       <ZeitProvider>
