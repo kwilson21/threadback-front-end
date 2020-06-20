@@ -28,7 +28,7 @@ export default function ThreadCard(props) {
             <UserHead user={thread.user} />
           </Col>
           <Col>
-            <Text h6 >
+            <Text h6>
               {moment
                 .utc(thread.tweets[0].date)
                 .format("MMMM Do YYYY, h:mma z")}

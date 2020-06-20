@@ -2,13 +2,11 @@ import Head from "next/head";
 import UserHead from "../../components/UserHead";
 import {
   Grid,
-  Col,
   Spacer,
   Container,
   useToasts,
   Spinner,
   useModal,
-  Row,
   Divider,
   Text,
   Page,

@@ -4,7 +4,6 @@ import { useQuery, useMutation } from "graphql-hooks";
 import { getAThreadQuery } from "../../queries/getAThreadQuery";
 import {
   Grid,
-  Col,
   Spacer,
   Container,
   useToasts,
