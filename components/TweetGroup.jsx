@@ -26,20 +26,6 @@ const formatTweet = (tweet, size) => {
 
   const extractedUrls = [...extractedUrlSet];
 
-  if (extractedUrls.length > 0 && photos.length > 0) {
-    for (let i = 0; i < extractedUrls.length; i++) {
-      if (extractedUrls[i].includes("pic.twitter")) {
-        let imageStr = "";
-        photos.forEach(
-          (url) =>
-            (imageStr =
-              imageStr + `<Display><Image src="${url}"></Image></Display>`)
-        );
-        jsx = jsx.replace(extractedUrls[i], imageStr);
-      }
-    }
-  }
-
   if (mentions.length > 0) {
     mentions.forEach((mention) => {
       let splitTweet = jsx.split(" ");
@@ -79,6 +65,23 @@ const formatTweet = (tweet, size) => {
         jsx = jsx.replace(url, `<Link color href="${url}">${url}</Link>`);
       }
     });
+  }
+
+  if (extractedUrls.length > 0) {
+    for (let i = 0; i < extractedUrls.length; i++) {
+      const jsxUrl = `<Link color href="${extractedUrls[i]}">${extractedUrls[i]}</Link>`;
+      if (extractedUrls[i].includes("pic.twitter")) {
+        let imageStr = "";
+        photos.forEach(
+          (url) =>
+            (imageStr =
+              imageStr + `<Display><Image src="${url}"></Image></Display>`)
+        );
+        jsx = jsx.replace(extractedUrls[i], imageStr);
+      } else if (!jsx.includes(jsxUrl)) {
+        jsx = jsx.replace(extractedUrls[i], jsxUrl);
+      }
+    }
   }
 
   jsx = `<Text ${size} span>${jsx}</Text>`;
