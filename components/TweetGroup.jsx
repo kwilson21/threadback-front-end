@@ -101,7 +101,7 @@ export default function TweetGroup(props) {
   let tweetSize = size;
 
   if (!size) {
-    tweetSize = "h3";
+    tweetSize = 'size="1.5rem"';
   }
   return (
     <Fragment>

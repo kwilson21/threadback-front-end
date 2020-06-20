@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { Grid, Col, Container, Divider, Text, Spacer } from "@zeit-ui/react";
+import { Grid, Col, Container, Divider, Text, Spacer, Page } from "@zeit-ui/react";
 
 import ThreadCardGroup from "../components/ThreadCardGroup";
 import SearchBox from "../components/SearchBox";
@@ -10,15 +10,19 @@ export default function Home() {
   const scroll = useScrollPast(115);
 
   return (
-    <Container style={{ padding: 20, margin: "0 auto", marginTop: 80 }}>
+    <Page>
+    <Container style={{  margin: "0 auto", marginTop: 10 }}>
       <Head>
         <title>Threadback | Home</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <Page.Content>
       <Col style={{ margin: "0 auto" }}>
+
         <Grid.Container gap={2}>
-          <Spacer y={2} />
+  
+          
           <Grid xs={24}>
             <Text h2>Search</Text>
           </Grid>
@@ -40,6 +44,7 @@ export default function Home() {
             <SearchBox />
           </Container>
         </Grid.Container>
+
         <Divider align="center" />
 
         <Grid.Container gap={2}>
@@ -50,6 +55,8 @@ export default function Home() {
           <ThreadCardGroup scroll={scroll} />
         </Grid.Container>
       </Col>
+      </Page.Content>
     </Container>
+    </Page>
   );
 }

@@ -11,6 +11,7 @@ import {
   Row,
   Divider,
   Text,
+  Page,
 } from "@zeit-ui/react";
 import { useRouter } from "next/router";
 import ThreadCardGroup from "../../components/ThreadCardGroup";
@@ -52,7 +53,7 @@ export default function User() {
 
   if (loading) {
     return (
-      <Container style={{ padding: 20, margin:"0 auto" }} justify="center">
+      <Container style={{ padding: 20, margin: "0 auto" }} justify="center">
         <Spacer x={8} />
         <Spinner size="large" />
         <Spacer x={8} />
@@ -77,70 +78,74 @@ export default function User() {
           />
         </Fragment>
       ) : (
-        <Container style={{ padding: 20, margin: "0 auto", marginTop: 80 }}>
-          <Head>
-            <title>ThreadBack | @{username}'s threads</title>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
+        <Page>
+          <Container style={{ margin: "0 auto", marginTop: 10 }}>
+            <Head>
+              <title>ThreadBack | @{username}'s threads</title>
+              <link rel="icon" href="/favicon.ico" />
+            </Head>
 
-          <Col style={{ margin: "0 auto" }}>
-            <Grid.Container gap={2}>
-              <Grid xs={24}>
-                <Container
-                  style={{
-                    position: "fixed",
-                    top: 0,
-                    zIndex: 999,
-                    marginBottom: 10,
-                    marginTop: 5,
-                    visibility: scroll ? "visible" : "hidden",
-                    margin: "0 auto",
-                  }}
-                >
-                  <SearchBox />
-                </Container>
-              </Grid>
-              <Grid xs={24}>
+            <Page.Content>
+              <Col style={{ margin: "0 auto" }}>
+                <Grid.Container gap={2}>
+                  <Grid xs={24}>
+                    <Container
+                      style={{
+                        position: "fixed",
+                        top: 0,
+                        zIndex: 999,
+                        marginBottom: 10,
+                        marginTop: 5,
+                        visibility: scroll ? "visible" : "hidden",
+                        margin: "0 auto",
+                      }}
+                    >
+                      <SearchBox />
+                    </Container>
+                  </Grid>
+                  <Grid xs={24}>
+                    <Container
+                      justify="center"
+                      style={{ visibility: scroll ? "hidden" : "visible" }}
+                    >
+                      <UserHead
+                        user={user}
+                        showBio={size.width > 967 ? true : false}
+                      />
+                      <RefreshUserButton
+                        loading={refreshRes.loading}
+                        refreshUser={refreshUser}
+                        status={
+                          refreshRes.data
+                            ? refreshRes.data.refresh.status
+                            : user.status
+                        }
+                      />
+                    </Container>
+                  </Grid>
+                </Grid.Container>
+
+                <Divider align="center" />
                 <Container
                   justify="center"
                   style={{ visibility: scroll ? "hidden" : "visible" }}
                 >
-                  <UserHead
-                    user={user}
-                    showBio={size.width > 967 ? true : false}
-                  />
-                  <RefreshUserButton
-                    loading={refreshRes.loading}
-                    refreshUser={refreshUser}
-                    status={
-                      refreshRes.data
-                        ? refreshRes.data.refresh.status
-                        : user.status
-                    }
-                  />
+                  <Grid.Container gap={2}>
+                    <Grid xs={24}>
+                      <Text h2>Search</Text>
+                    </Grid>
+
+                    <SearchBox />
+                  </Grid.Container>
                 </Container>
-              </Grid>
-            </Grid.Container>
-
-            <Divider align="center" />
-            <Container
-              justify="center"
-              style={{ visibility: scroll ? "hidden" : "visible" }}
-            >
-              <Grid.Container gap={2}>
-                <Grid xs={24}>
-                  <Text h2>Search</Text>
-                </Grid>
-
-                <SearchBox />
-              </Grid.Container>
-            </Container>
-            <Divider align="center" />
-            <Grid.Container gap={2}>
-              <ThreadCardGroup username={username} />
-            </Grid.Container>
-          </Col>
-        </Container>
+                <Divider align="center" />
+                <Grid.Container gap={2}>
+                  <ThreadCardGroup username={username} />
+                </Grid.Container>
+              </Col>
+            </Page.Content>
+          </Container>
+        </Page>
       )}
     </Fragment>
   );

@@ -74,7 +74,7 @@ export default function ThreadCardGroup(props) {
 
   if (loading && !data)
     return (
-      <Container style={{ padding: 20, margin:"0 auto" }} justify="center">
+      <Container style={{ padding: 20, margin: "0 auto" }} justify="center">
         <Spacer x={8} />
         <Spinner size="large" />
         <Spacer x={8} />
@@ -87,7 +87,7 @@ export default function ThreadCardGroup(props) {
     <Fragment>
       {data &&
         data.threads.items.map((thread) => (
-          <Grid xs={24} sm={12} lg={6} key={thread.conversationId}>
+          <Grid xs={24} sm={12} lg={8} key={thread.conversationId}>
             <ThreadCard thread={thread} />
           </Grid>
         ))}
