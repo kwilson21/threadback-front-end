@@ -72,7 +72,7 @@ export default function Thread() {
         <Page>
           <Container style={{  margin: "0 auto", marginTop: 10 }}>
             <Head>
-              <title>ThreadBack | Thread by @{thread.user}</title>
+              <title>ThreadBack | Thread by @{thread.user.username}</title>
               <link rel="icon" href="/favicon.ico" />
             </Head>
             <Page.Content>
