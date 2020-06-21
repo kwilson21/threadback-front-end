@@ -29,7 +29,7 @@ const updateData = (prevData, data) => {
 };
 
 export default function ThreadCardGroup(props) {
-  const { username, scroll } = props;
+  const { username } = props;
 
   const [offsetCount, setOffsetCount] = useState(0);
   const [orderDir, setOrderDir] = useState("desc");
@@ -84,7 +84,7 @@ export default function ThreadCardGroup(props) {
     );
 
   const hasMoreThreads = data.threads.items.length < data.threads.count;
-  console.log(data, loading);
+
   return (
     <Fragment>
       {data.threads.items.length === 0 && !loading ? (

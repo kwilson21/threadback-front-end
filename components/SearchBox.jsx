@@ -1,5 +1,6 @@
 import { Fragment, useEffect } from "react";
 import {
+  Row,
   Grid,
   Button,
   Container,
@@ -74,34 +75,36 @@ export default function SearchBox() {
 
   return (
     <Fragment>
-      <Grid xs={24}>
-        <AutoComplete
-          icon={<Search />}
-          width="100%"
-          clearable
-          size="large"
-          placeholder="Enter a username"
-          onChange={handleChange}
-          onClearClick={handleClear}
-          options={options}
-          onKeyPress={handleEnter}
-          onSearch={searchHandler}
-          onSelect={(v) => Router.push(`/user/${v}`)}
-        >
-          <AutoComplete.Empty>
-            <span>No users...</span>
-          </AutoComplete.Empty>
-        </AutoComplete>
-      </Grid>
-      <Grid>
-        <Button
-          auto
-          type="success-light"
-          onClick={() => Router.push(`/user/${username}`)}
-        >
-          Find
-        </Button>
-      </Grid>
+      <Row>
+        <Grid xs>
+          <AutoComplete
+            icon={<Search />}
+            width="100%"
+            clearable
+            size="large"
+            placeholder="Enter a username"
+            onChange={handleChange}
+            onClearClick={handleClear}
+            options={options}
+            onKeyPress={handleEnter}
+            onSearch={searchHandler}
+            onSelect={(v) => Router.push(`/user/${v}`)}
+          >
+            <AutoComplete.Empty>
+              <span>No users...</span>
+            </AutoComplete.Empty>
+          </AutoComplete>
+        </Grid>
+        <Grid>
+          <Button
+            auto
+            type="success-light"
+            onClick={() => Router.push(`/user/${username}`)}
+          >
+            Find
+          </Button>
+        </Grid>
+      </Row>
     </Fragment>
   );
 }

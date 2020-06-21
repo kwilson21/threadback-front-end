@@ -4,11 +4,9 @@ import { Grid, Container, Divider, Text, Page } from "@zeit-ui/react";
 
 import ThreadCardGroup from "../components/ThreadCardGroup";
 import SearchBox from "../components/SearchBox";
-import useScrollPast from "../hooks/useScrollPast";
+import Sticky from "react-stickynode";
 
 export default function Home() {
-  const scroll = useScrollPast(115);
-
   return (
     <Page>
       <Container style={{ margin: "0 auto" }}>
@@ -22,23 +20,11 @@ export default function Home() {
             <Grid xs={24}>
               <Text h2>Search</Text>
             </Grid>
-
-            <Container
-              style={{
-                position: "fixed",
-                top: 0,
-                zIndex: 999,
-                marginBottom: 10,
-                marginTop: 5,
-                visibility: scroll ? "visible" : "hidden",
-                margin: "0 auto",
-              }}
-            >
-              <SearchBox />
-            </Container>
-            <Container style={{ visibility: scroll ? "hidden" : "visible" }}>
-              <SearchBox />
-            </Container>
+            <Grid xs>
+              <Sticky innerZ={999}>
+                <SearchBox />
+              </Sticky>
+            </Grid>
           </Grid.Container>
 
           <Divider align="center" />
@@ -48,7 +34,7 @@ export default function Home() {
               <Text h2>Recent</Text>
             </Grid>
 
-            <ThreadCardGroup scroll={scroll} />
+            <ThreadCardGroup />
           </Grid.Container>
         </Page.Content>
       </Container>

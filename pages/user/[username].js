@@ -21,15 +21,11 @@ import Error from "next/error";
 import UserMissingModal from "../../components/UserMissingModal";
 import SearchBox from "../../components/SearchBox";
 import { refreshThreadsMutation } from "../../queries/refreshThreadsMutation";
-import useWindowSize from "../../hooks/useWindowSize";
-import useScrollPast from "../../hooks/useScrollPast";
+import Sticky from "react-stickynode";
 
 export default function User() {
   const router = useRouter();
   const { username } = router.query;
-
-  const size = useWindowSize();
-  const scroll = useScrollPast(325);
 
   const [toasts, setToast] = useToasts();
   const { visible, setVisible, bindings } = useModal(true);
@@ -86,25 +82,7 @@ export default function User() {
             <Page.Content>
               <Grid.Container gap={2}>
                 <Grid xs={24}>
-                  <Container
-                    style={{
-                      position: "fixed",
-                      top: 0,
-                      zIndex: 999,
-                      marginBottom: 10,
-                      marginTop: 5,
-                      visibility: scroll ? "visible" : "hidden",
-                      margin: "0 auto",
-                    }}
-                  >
-                    <SearchBox />
-                  </Container>
-                </Grid>
-                <Grid xs={24}>
-                  <Container
-                    justify="center"
-                    style={{ visibility: scroll ? "hidden" : "visible" }}
-                  >
+                  <Container justify="center">
                     <UserHead user={user} />
                     <RefreshUserButton
                       loading={refreshRes.loading}
@@ -120,18 +98,16 @@ export default function User() {
               </Grid.Container>
 
               <Divider align="center" />
-              <Container
-                justify="center"
-                style={{ visibility: scroll ? "hidden" : "visible" }}
-              >
-                <Grid.Container gap={2}>
-                  <Grid xs={24}>
-                    <Text h2>Search</Text>
-                  </Grid>
-
-                  <SearchBox />
-                </Grid.Container>
-              </Container>
+              <Grid.Container gap={2}>
+                <Grid xs={24}>
+                  <Text h2>Search</Text>
+                </Grid>
+                <Grid xs>
+                  <Sticky innerZ={999}>
+                    <SearchBox />
+                  </Sticky>
+                </Grid>
+              </Grid.Container>
               <Divider align="center" />
               <Grid.Container gap={2}>
                 <ThreadCardGroup username={username} />
