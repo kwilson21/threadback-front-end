@@ -14,6 +14,7 @@ import {
   Link,
 } from "@zeit-ui/react";
 import map from "lodash/map";
+import orderBy from "lodash/orderBy";
 import { ChevronUp, ChevronDown } from "@zeit-ui/react-icons";
 
 // use options.updateData to append the new page of posts to our current list of posts
@@ -30,7 +31,7 @@ export default function ThreadCardGroup(props) {
   const { username, scroll } = props;
 
   const [offsetCount, setOffsetCount] = useState(0);
-  const [orderDir, setOrderDir] = useState("DESC");
+  const [orderDir, setOrderDir] = useState("desc");
   const [toasts, setToast] = useToasts();
 
   let res;
@@ -38,18 +39,18 @@ export default function ThreadCardGroup(props) {
   const handleOrderDir = (e) => {
     e.preventDefault();
     switch (orderDir) {
-      case "DESC":
-        setOrderDir("ASC");
+      case "desc":
+        setOrderDir("asc");
         break;
-      case "ASC":
-        setOrderDir("DESC");
+      case "asc":
+        setOrderDir("desc");
         break;
     }
   };
 
   if (!username) {
     res = useQuery(allThreadsQuery, {
-      variables: { offset: offsetCount, limit: 15, direction: orderDir },
+      variables: { offset: offsetCount, limit: 15 },
       updateData,
     });
   } else {
@@ -58,7 +59,6 @@ export default function ThreadCardGroup(props) {
         offset: offsetCount,
         limit: 15,
         usernames: [username],
-        direction: orderDir,
       },
       updateData,
     });
@@ -86,12 +86,26 @@ export default function ThreadCardGroup(props) {
 
   return (
     <Fragment>
+      <Grid xs={24}>
+        {orderDir === "desc" ? (
+          <Link onClick={handleOrderDir}>
+            <ChevronDown />
+          </Link>
+        ) : (
+          <Link onClick={handleOrderDir}>
+            <ChevronUp />
+          </Link>
+        )}
+      </Grid>
       {data &&
-        map(data.threads.items, (thread) => (
-          <Grid xs={24} sm={12} lg={8} key={thread.conversationId}>
-            <ThreadCard thread={thread} />
-          </Grid>
-        ))}
+        map(
+          orderBy(data.threads.items, "conversationId", orderDir),
+          (thread) => (
+            <Grid xs={24} sm={12} lg={8} key={thread.conversationId}>
+              <ThreadCard thread={thread} />
+            </Grid>
+          )
+        )}
       <Col align="center" style={{ marginTop: 20, marginBottom: 20 }}>
         {hasMoreThreads && (
           <Button

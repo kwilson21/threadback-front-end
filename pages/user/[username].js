@@ -105,10 +105,7 @@ export default function User() {
                     justify="center"
                     style={{ visibility: scroll ? "hidden" : "visible" }}
                   >
-                    <UserHead
-                      user={user}
-                      showBio={size.width > 967 ? true : false}
-                    />
+                    <UserHead user={user} />
                     <RefreshUserButton
                       loading={refreshRes.loading}
                       refreshUser={refreshUser}

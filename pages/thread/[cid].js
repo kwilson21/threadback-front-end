@@ -96,10 +96,7 @@ export default function Thread() {
                     justify="center"
                     style={{ visibility: scroll ? "hidden" : "visible" }}
                   >
-                    <UserHead
-                      user={thread.user}
-                      showBio={size.width > 967 ? true : false}
-                    />
+                    <UserHead user={thread.user} />
                     <RefreshUserButton
                       loading={refreshRes.loading}
                       refreshUser={refreshUser}
