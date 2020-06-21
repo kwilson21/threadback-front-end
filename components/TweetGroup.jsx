@@ -5,6 +5,8 @@ import YouTube from "react-youtube";
 
 import { Grid, Text, Image, Link, Display, Spacer } from "@zeit-ui/react";
 
+import LazyLoad from "react-lazyload";
+
 import map from "lodash/map";
 import forEach from "lodash/forEach";
 import orderBy from "lodash/orderBy";
@@ -55,12 +57,15 @@ const formatTweet = (tweet, size) => {
     forEach(urls, (url) => {
       if (url.includes("status") && url.includes("twitter")) {
         const tweetId = url.split("/").slice(-1);
-        jsx = jsx.replace(url, `<Tweet  tweetId="${tweetId}"/>`);
+        jsx = jsx.replace(
+          url,
+          `<LazyLoad><Tweet  tweetId="${tweetId}"/></LazyLoad>`
+        );
       } else if (url.includes("youtube") || url.includes("youtu.be")) {
         const videoId = url.split("watch?v=").slice(-1);
         jsx = jsx.replace(
           url,
-          `<YouTube style={{marginLeft: "auto", marginRight: "auto"}} videoId="${videoId}"/>`
+          `<LazyLoad><YouTube style={{marginLeft: "auto", marginRight: "auto"}} videoId="${videoId}"/></LazyLoad>`
         );
       } else {
         jsx = jsx.replace(url, `<Link color href="${url}">${url}</Link>`);
@@ -77,7 +82,8 @@ const formatTweet = (tweet, size) => {
           photos,
           (url) =>
             (imageStr =
-              imageStr + `<Display><Image src="${url}"></Image></Display>`)
+              imageStr +
+              `<Display><LazyLoad><Image src="${url}"></Image></LazyLoad></Display>`)
         );
         jsx = jsx.replace(extractedUrl, imageStr);
       } else if (!jsx.includes(jsxUrl)) {
@@ -90,7 +96,7 @@ const formatTweet = (tweet, size) => {
 
   return (
     <JsxParser
-      components={{ Image, Link, Tweet, Text, YouTube, Display }}
+      components={{ Image, Link, Tweet, Text, YouTube, Display, LazyLoad }}
       jsx={jsx}
     />
   );
