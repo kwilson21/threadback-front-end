@@ -4,6 +4,7 @@ export const allThreadsQuery = `
       items{
         conversationId
         tweets{
+          tweetId
           date
           text
           mentions

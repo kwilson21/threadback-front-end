@@ -11,13 +11,12 @@ import {
 import Router from "next/router";
 import TweetGroup from "./TweetGroup";
 import moment from "moment-timezone";
+import orderBy from "lodash/orderBy";
 
 export default function ThreadCard(props) {
   const { thread } = props;
 
-  thread.tweets = thread.tweets
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .reverse();
+  thread.tweets = orderBy(thread.tweets, "tweetId");
 
   return (
     // <Link onClick={() => Router.push(`/thread/${thread.conversationId}`)}>

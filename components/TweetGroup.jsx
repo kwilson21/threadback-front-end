@@ -7,7 +7,7 @@ import { Grid, Text, Image, Link, Display, Spacer } from "@zeit-ui/react";
 
 import map from "lodash/map";
 import forEach from "lodash/forEach";
-
+import orderBy from "lodash/orderBy";
 import JsxParser from "react-jsx-parser";
 
 if (typeof String.prototype.trim === "undefined") {
@@ -99,21 +99,14 @@ const formatTweet = (tweet, size) => {
 export default function TweetGroup(props) {
   const { tweets, size } = props;
 
-  const sortedTweets = tweets
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .reverse();
+  const sortedTweets = orderBy(tweets, "tweetId");
 
-  let tweetSize = size;
-
-  if (!size) {
-    tweetSize = 'size="1.5rem"';
-  }
   return (
     <Fragment>
       {map(sortedTweets, (tweet, idx) => {
         return (
           <Grid xs={24} key={idx}>
-            {formatTweet(tweet, tweetSize)}
+            {formatTweet(tweet, size ? size : 'size="1.5rem"')}
           </Grid>
         );
       })}

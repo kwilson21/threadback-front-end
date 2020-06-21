@@ -5,6 +5,7 @@ export const getUserThreadsQuery = `
         conversationId
         tweets{
           date
+          tweetId
           text
           mentions
           urls
