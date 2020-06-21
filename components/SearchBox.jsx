@@ -6,6 +6,7 @@ import {
   Spacer,
   AutoComplete,
   Spinner,
+  useToasts,
 } from "@zeit-ui/react";
 import { useState } from "react";
 import Router from "next/router";
@@ -19,6 +20,7 @@ export default function SearchBox() {
   const [username, setUsername] = useState("");
   const [allOptions, setAllOptions] = useState([]);
   const [options, setOptions] = useState([]);
+  const [toasts, setToast] = useToasts();
 
   const { loading, error, data } = useQuery(getAllUsersQuery);
 
