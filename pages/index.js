@@ -33,7 +33,6 @@ export default function Home() {
             <Grid xs={24}>
               <Text h2>Recent</Text>
             </Grid>
-
             <ThreadCardGroup />
           </Grid.Container>
         </Page.Content>

@@ -17,6 +17,7 @@
     "next": "9.4.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-infinite-loader": "^1.0.4",
     "react-jsx-parser": "^1.25.1",
     "react-lazyload": "^2.6.8",
     "react-stickynode": "^3.0.3",
