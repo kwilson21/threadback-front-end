@@ -17,6 +17,7 @@ import {
 import map from "lodash/map";
 import orderBy from "lodash/orderBy";
 import { ChevronUp, ChevronDown } from "@zeit-ui/react-icons";
+import InfiniteLoader from "react-infinite-loader";
 
 // use options.updateData to append the new page of posts to our current list of posts
 const updateData = (prevData, data) => {
@@ -113,19 +114,14 @@ export default function ThreadCardGroup(props) {
                 </Grid>
               )
             )}
-          <Col align="center" style={{ marginTop: 20, marginBottom: 20 }}>
-            {hasMoreThreads && (
-              <Button
-                ghost
-                type="success"
-                loading={loading}
-                auto
-                onClick={() => setOffsetCount(offsetCount + 1)}
-              >
-                Show more
-              </Button>
-            )}
-          </Col>
+          {loading && (
+            <Col align="center" style={{ marginTop: 20, marginBottom: 20 }}>
+              <Spinner size="large" />
+            </Col>
+          )}
+          {hasMoreThreads && (
+            <InfiniteLoader onVisited={() => setOffsetCount(offsetCount + 1)} />
+          )}
         </Fragment>
       )}
     </Fragment>
