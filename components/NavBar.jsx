@@ -1,9 +1,7 @@
 import { Tabs, Container, Spacer } from "@zeit-ui/react";
 import Router from "next/router";
-import useWindowSize from "../hooks/useWindowSize";
 
 export default function NavBar() {
-  const window = useWindowSize();
   return (
     <Container
       style={{
@@ -11,7 +9,7 @@ export default function NavBar() {
         top: 0,
         left: 0,
         right: 0,
-        height: window.width > 1125 ? "65px" : "85px",
+        height: "85px",
         zIndex: 999,
         backgroundColor: "rgb(255, 255, 255)",
         boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 15px 0px",
