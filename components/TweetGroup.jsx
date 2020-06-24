@@ -86,13 +86,18 @@ const formatTweet = (tweet, size) => {
               `<Display><LazyLoad><Image src="${url}"></Image></LazyLoad></Display>`)
         );
         jsx = jsx.replace(extractedUrl, imageStr);
-      } else if (!jsx.includes(jsxUrl)) {
+      } else if (
+        !jsx.includes(jsxUrl) &&
+        !urls.some((url) =>
+          jsx.includes(`<Link color href="${url}">${url}</Link>`)
+        )
+      ) {
         jsx = jsx.replace(extractedUrl, jsxUrl);
       }
     });
   }
 
-  jsx = `<Text ${size} span>${jsx}</Text>`;
+  jsx = `<Text ${size} style={{whiteSpace: "pre-line"}} span>${jsx}</Text>`;
 
   return (
     <JsxParser
