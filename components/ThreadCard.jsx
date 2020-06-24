@@ -37,7 +37,7 @@ export default function ThreadCard(props) {
       </Card.Content>
       <Divider y={0}></Divider>
       <Card.Content style={{ height: "300px", overflow: "hidden" }}>
-        <TweetGroup tweets={thread.tweets.slice(0, 3)} size={'size="1.1rem"'} />
+        <TweetGroup tweets={thread.tweets.slice(0, 4)} size={'size="1.1rem"'} />
       </Card.Content>
       <Divider y={0} />
       <Card.Content style={{ marginLeft: "auto", marginRight: "auto" }}>
