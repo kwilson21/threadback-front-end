@@ -97,7 +97,7 @@ const formatTweet = (tweet, size) => {
     });
   }
 
-  jsx = `<Text ${size} style={{whiteSpace: "pre"}} span>${jsx}</Text>`;
+  jsx = `<Text ${size} style={{whiteSpace: "pre-wrap"}} span>${jsx}</Text>`;
 
   return (
     <JsxParser
