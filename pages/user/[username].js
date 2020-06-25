@@ -78,7 +78,7 @@ export default function User() {
               <title>ThreadBack | @{username}'s threads</title>
               <link rel="icon" href="/favicon.ico" />
               <meta property="og:title" content={`@${username}'s threads`} />
-              <meta property="og:image:secure" content={user.profilePhoto} />
+              <meta property="og:image:url" content={user.profilePhoto} />
               <meta
                 property="og:description"
                 content="Catch up on all of your favorite twitter user's threads with ThreadBack"

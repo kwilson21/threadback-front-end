@@ -78,7 +78,7 @@ export default function Thread() {
               <link rel="icon" href="/favicon.ico" />
               <meta property="og:title" content={description} />
               <meta
-                property="og:image:secure_url"
+                property="og:image:url"
                 content={thread.user.profilePhoto}
               />
               <meta property="og:url" content={windowLocation} />
