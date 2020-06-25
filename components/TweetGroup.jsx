@@ -6,14 +6,13 @@ import YouTube from "react-youtube";
 import { Grid, Text, Image, Link, Display } from "@zeit-ui/react";
 
 import LazyLoad from "react-lazyload";
-
 import map from "lodash/map";
 import forEach from "lodash/forEach";
 import orderBy from "lodash/orderBy";
 import JsxParser from "react-jsx-parser";
 
 const formatTweet = (tweet, size) => {
-  const { text, mentions, urls, photos } = tweet;
+  const { text, mentions, urls, photos, video, link } = tweet;
 
   let jsx = text;
 
@@ -24,6 +23,8 @@ const formatTweet = (tweet, size) => {
   });
 
   const extractedUrls = [...extractedUrlSet];
+
+  const tweetId = link.split("/").slice(-1);
 
   if (mentions.length > 0) {
     forEach(mentions, (mention) => {
@@ -37,7 +38,6 @@ const formatTweet = (tweet, size) => {
   if (urls.length > 0) {
     forEach(urls, (url) => {
       if (url.includes("status") && url.includes("twitter")) {
-        const tweetId = url.split("/").slice(-1);
         jsx = jsx.replace(
           url,
           `<LazyLoad><Tweet tweetId="${tweetId}"/></LazyLoad>`
@@ -59,13 +59,17 @@ const formatTweet = (tweet, size) => {
       const jsxUrl = `<Link color href="${extractedUrl}">${extractedUrl}</Link>`;
       if (extractedUrl.includes("pic.twitter")) {
         let imageStr = "";
-        forEach(
-          photos,
-          (url) =>
-            (imageStr =
-              imageStr +
-              `<Display><LazyLoad><Image src="${url}"></Image></LazyLoad></Display>`)
-        );
+        if (video) {
+          imageStr = `<LazyLoad><Tweet tweetId="${tweetId}"/></LazyLoad>`;
+        } else {
+          forEach(
+            photos,
+            (url) =>
+              (imageStr =
+                imageStr +
+                `<Display><LazyLoad><Image src="${url}"></Image></LazyLoad></Display>`)
+          );
+        }
         jsx = jsx.replace(extractedUrl, imageStr);
       } else if (
         !jsx.includes(jsxUrl) &&
@@ -82,7 +86,15 @@ const formatTweet = (tweet, size) => {
 
   return (
     <JsxParser
-      components={{ Image, Link, Tweet, Text, YouTube, Display, LazyLoad }}
+      components={{
+        Image,
+        Link,
+        Tweet,
+        Text,
+        YouTube,
+        Display,
+        LazyLoad,
+      }}
       jsx={jsx}
     />
   );

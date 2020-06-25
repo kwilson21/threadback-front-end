@@ -45,7 +45,7 @@ export default function ThreadCard(props) {
           auto
           onClick={() => Router.push(`/thread/${thread.conversationId}`)}
         >
-          Read
+          Read {thread.tweets.length} tweets
         </Button>
       </Card.Content>
     </Card>

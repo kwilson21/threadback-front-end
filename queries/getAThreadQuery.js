@@ -11,6 +11,8 @@ export const getAThreadQuery = `
           urls
           photos
           timezone
+          video
+          link
         }
         user{
           status
