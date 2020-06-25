@@ -17,7 +17,6 @@ export const allThreadsQuery = `
           userId
           username
           profilePhoto
-          bio
         }
       }
       count
