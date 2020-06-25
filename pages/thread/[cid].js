@@ -77,10 +77,13 @@ export default function Thread() {
               <title>ThreadBack | {description}</title>
               <link rel="icon" href="/favicon.ico" />
               <meta property="og:title" content={description} />
-              <meta property="og:image" content={thread.user.profilePhoto} />
+              <meta
+                property="og:image:secure"
+                content={thread.user.profilePhoto}
+              />
               <meta property="og:url" content={windowLocation} />
               <meta property="og:description" content={description} />
-              <meta property="article:author" content={thread.user.link} />
+              <meta property="article:author" content={thread.user.username} />
               <meta property="og:type" content="article" />
             </Head>
             <Page.Content>
