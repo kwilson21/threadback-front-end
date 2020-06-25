@@ -17,7 +17,6 @@ export const getUserThreadsQuery = `
           userId
           username
           profilePhoto
-          bio
         }
       }
       count
