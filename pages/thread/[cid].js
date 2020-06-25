@@ -82,11 +82,9 @@ export default function Thread() {
               <meta property="article:author" content={thread.user.username} />
               <meta property="og:type" content="article" />
               <meta
-                property="og:image:url"
+                property="og:image:secure_url"
                 content={thread.user.profilePhoto}
               />
-              <meta property="og:image:width" content="400px" />
-              <meta property="og:image:height" content="400px" />
             </Head>
             <Page.Content>
               <Grid.Container gap={2}>
