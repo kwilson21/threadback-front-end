@@ -17,6 +17,7 @@ export const getAThreadQuery = `
           userId
           username
           profilePhoto
+          bio
         }
       }
       count

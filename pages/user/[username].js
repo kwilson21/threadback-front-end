@@ -77,6 +77,9 @@ export default function User() {
             <Head>
               <title>ThreadBack | @{username}'s threads</title>
               <link rel="icon" href="/favicon.ico" />
+              <meta property="og:title" content={`@${username}'s threads`} />
+              <meta property="og:image" content={user.profilePhoto} />
+              <meta property="og:description" content={user.bio} />
             </Head>
 
             <Page.Content>

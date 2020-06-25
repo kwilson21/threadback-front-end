@@ -70,6 +70,11 @@ export default function Thread() {
             <Head>
               <title>ThreadBack | Thread by @{thread.user.username}</title>
               <link rel="icon" href="/favicon.ico" />
+              <meta
+                property="og:title"
+                content={`Thread by @${thread.user.usernam}`}
+              />
+              <meta property="og:image" content={thread.user.profilePhoto} />
             </Head>
             <Page.Content>
               <Grid.Container gap={2}>
