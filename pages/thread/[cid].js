@@ -77,14 +77,16 @@ export default function Thread() {
               <title>ThreadBack | {description}</title>
               <link rel="icon" href="/favicon.ico" />
               <meta property="og:title" content={description} />
-              <meta
-                property="og:image:url"
-                content={thread.user.profilePhoto}
-              />
               <meta property="og:url" content={windowLocation} />
               <meta property="og:description" content={description} />
               <meta property="article:author" content={thread.user.username} />
               <meta property="og:type" content="article" />
+              <meta
+                property="og:image:url"
+                content={thread.user.profilePhoto}
+              />
+              <meta property="og:image:width" content="400px" />
+              <meta property="og:image:height" content="400px" />
             </Head>
             <Page.Content>
               <Grid.Container gap={2}>

@@ -78,7 +78,6 @@ export default function User() {
               <title>ThreadBack | @{username}'s threads</title>
               <link rel="icon" href="/favicon.ico" />
               <meta property="og:title" content={`@${username}'s threads`} />
-              <meta property="og:image:url" content={user.profilePhoto} />
               <meta
                 property="og:description"
                 content="Catch up on all of your favorite twitter user's threads with ThreadBack"
@@ -91,6 +90,9 @@ export default function User() {
                 name="keywords"
                 content="twitter, twitter replies, twitter mentions, twitter thread"
               />
+              <meta property="og:image:url" content={user.profilePhoto} />
+              <meta property="og:image:width" content="400px" />
+              <meta property="og:image:height" content="400px" />
             </Head>
 
             <Page.Content>
