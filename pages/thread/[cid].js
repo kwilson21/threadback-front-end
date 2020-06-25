@@ -21,12 +21,14 @@ import { Fragment } from "react";
 import SearchBox from "../../components/SearchBox";
 import { refreshThreadsMutation } from "../../queries/refreshThreadsMutation";
 import Sticky from "react-stickynode";
+import useWindowLocation from "../../hooks/useWindowLocation";
 
 export default function Thread() {
   const router = useRouter();
   const { cid } = router.query;
 
   const [toasts, setToast] = useToasts();
+  const windowLocation = useWindowLocation();
 
   const { loading, error, data } = useQuery(getAThreadQuery, {
     variables: { offset: 0, limit: 1, conversationIds: [cid] },
@@ -60,6 +62,10 @@ export default function Thread() {
 
   const thread = items[0];
 
+  const tweetText = `${thread.tweets[0].text.slice(0, 120)}...`;
+
+  const description = `Thread by @${thread.user.username}: ${tweetText}`;
+
   return (
     <Fragment>
       {!data && !error ? (
@@ -68,8 +74,14 @@ export default function Thread() {
         <Page>
           <Container style={{ margin: "0 auto" }}>
             <Head>
-              <title>ThreadBack | Thread by @{thread.user.username}</title>
+              <title>ThreadBack | {description}</title>
               <link rel="icon" href="/favicon.ico" />
+              <meta property="og:title" content={description} />
+              <meta property="og:image" content={thread.user.profilePhoto} />
+              <meta property="og:url" content={windowLocation} />
+              <meta property="og:description" content={description} />
+              <meta property="article:author" content={thread.user.link} />
+              <meta property="og:type" content="article" />
             </Head>
             <Page.Content>
               <Grid.Container gap={2}>

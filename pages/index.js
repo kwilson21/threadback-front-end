@@ -13,6 +13,18 @@ export default function Home() {
         <Head>
           <title>Threadback | Home</title>
           <link rel="icon" href="/favicon.ico" />
+          <meta
+            property="og:description"
+            content="Catch up on all of your favorite twitter user's threads with ThreadBack"
+          />
+          <meta
+            name="description"
+            content="Catch up on all of your favorite twitter user's threads with ThreadBack"
+          />
+          <meta
+            name="keywords"
+            content="twitter, twitter replies, twitter mentions, twitter thread"
+          />
         </Head>
 
         <Page.Content>
