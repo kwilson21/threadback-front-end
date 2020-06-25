@@ -5,6 +5,7 @@ export const refreshThreadsMutation = `
       userId
       username
       profilePhoto
+      bio
     }
   }
 `;

@@ -6,7 +6,6 @@ export const getAUserQuery = `
         userId
         username
         profilePhoto
-        bio
       }
     }
   }
