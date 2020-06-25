@@ -3,7 +3,7 @@ import getUrls from "get-urls";
 import { Tweet } from "react-twitter-widgets";
 import YouTube from "react-youtube";
 
-import { Grid, Text, Image, Link, Display, Spacer } from "@zeit-ui/react";
+import { Grid, Text, Image, Link, Display } from "@zeit-ui/react";
 
 import LazyLoad from "react-lazyload";
 
@@ -11,12 +11,6 @@ import map from "lodash/map";
 import forEach from "lodash/forEach";
 import orderBy from "lodash/orderBy";
 import JsxParser from "react-jsx-parser";
-
-if (typeof String.prototype.trim === "undefined") {
-  String.prototype.trim = function () {
-    return String(this).replace(/^\s+|\s+$/g, "");
-  };
-}
 
 const formatTweet = (tweet, size) => {
   const { text, mentions, urls, photos } = tweet;
@@ -33,23 +27,10 @@ const formatTweet = (tweet, size) => {
 
   if (mentions.length > 0) {
     forEach(mentions, (mention) => {
-      let splitTweet = jsx.split(" ");
-      jsx = map(splitTweet, (str) => {
-        const word = str.toLowerCase();
-        if (word.startsWith("@") && word === mention) {
-          return `<Link color href="https://twitter.com/${mention}">${str}</Link>`;
-        } else if (word.startsWith("@") && word.includes(mention)) {
-          let splitWord = word.split(`@${mention}`);
-          splitWord[0] = `<Link color href="https://twitter.com/${mention}">@${mention}</Link>`;
-          if (splitWord.length > 1 && splitWord[1].includes("@")) {
-            splitWord[1] = splitWord[1].replace("@", "").trim();
-            splitWord[1] = `<Link color href="https://twitter.com/${splitWord[1]}"> @${splitWord[1]}</Link>`;
-          }
-          return splitWord.join("");
-        } else {
-          return str;
-        }
-      }).join(" ");
+      jsx = jsx.replace(
+        new RegExp(`@${mention}`, "gi"),
+        `<Link color href="https://twitter.com/${mention}">$&</Link>`
+      );
     });
   }
 
@@ -59,13 +40,13 @@ const formatTweet = (tweet, size) => {
         const tweetId = url.split("/").slice(-1);
         jsx = jsx.replace(
           url,
-          `<LazyLoad><Tweet  tweetId="${tweetId}"/></LazyLoad>`
+          `<LazyLoad><Tweet tweetId="${tweetId}"/></LazyLoad>`
         );
       } else if (url.includes("youtube") || url.includes("youtu.be")) {
         const videoId = url.split("watch?v=").slice(-1);
         jsx = jsx.replace(
           url,
-          `<LazyLoad><YouTube style={{marginLeft: "auto", marginRight: "auto"}} videoId="${videoId}"/></LazyLoad>`
+          `<LazyLoad><YouTube videoId="${videoId}"/></LazyLoad>`
         );
       } else {
         jsx = jsx.replace(url, `<Link color href="${url}">${url}</Link>`);
