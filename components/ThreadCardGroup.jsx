@@ -38,6 +38,8 @@ export default function ThreadCardGroup(props) {
 
   let res;
 
+  const limit = 15;
+
   const handleOrderDir = (e) => {
     e.preventDefault();
     switch (orderDir) {
@@ -52,14 +54,14 @@ export default function ThreadCardGroup(props) {
 
   if (!username) {
     res = useQuery(allThreadsQuery, {
-      variables: { offset: offsetCount, limit: 15 },
+      variables: { offset: offsetCount, limit },
       updateData,
     });
   } else {
     res = useQuery(getUserThreadsQuery, {
       variables: {
         offset: offsetCount,
-        limit: 15,
+        limit,
         usernames: [username],
       },
       updateData,
@@ -120,7 +122,9 @@ export default function ThreadCardGroup(props) {
             </Col>
           )}
           {hasMoreThreads && (
-            <InfiniteLoader onVisited={() => setOffsetCount(offsetCount + 1)} />
+            <InfiniteLoader
+              onVisited={() => setOffsetCount(offsetCount + limit)}
+            />
           )}
         </Fragment>
       )}
