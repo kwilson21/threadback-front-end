@@ -24,7 +24,7 @@ const updateData = (prevData, data) => {
   return {
     threads: {
       items: [...prevData.threads.items, ...data.threads.items],
-      count: prevData.threads.count + data.threads.count,
+      count: data.threads.count,
     },
   };
 };
@@ -37,6 +37,7 @@ export default function ThreadCardGroup(props) {
   const [toasts, setToast] = useToasts();
 
   let res;
+  const limit = 15;
 
   const handleOrderDir = (e) => {
     e.preventDefault();
@@ -52,14 +53,14 @@ export default function ThreadCardGroup(props) {
 
   if (!username) {
     res = useQuery(allThreadsQuery, {
-      variables: { offset: offsetCount, limit: 15 },
+      variables: { offset: offsetCount, limit },
       updateData,
     });
   } else {
     res = useQuery(getUserThreadsQuery, {
       variables: {
         offset: offsetCount,
-        limit: 15,
+        limit,
         usernames: [username],
       },
       updateData,
@@ -94,7 +95,7 @@ export default function ThreadCardGroup(props) {
         </Col>
       ) : (
         <Fragment>
-          <Grid xs={24}>
+          <Grid xs={12}>
             {orderDir === "desc" ? (
               <Link onClick={handleOrderDir}>
                 <ChevronDown />
@@ -104,6 +105,11 @@ export default function ThreadCardGroup(props) {
                 <ChevronUp />
               </Link>
             )}
+          </Grid>
+          <Grid xs={12}>
+            <Text size="1rem" style={{ float: "right" }}>
+              {data.threads.count} threads
+            </Text>
           </Grid>
           {data &&
             map(
@@ -120,7 +126,9 @@ export default function ThreadCardGroup(props) {
             </Col>
           )}
           {hasMoreThreads && (
-            <InfiniteLoader onVisited={() => setOffsetCount(offsetCount + 1)} />
+            <InfiniteLoader
+              onVisited={() => setOffsetCount(offsetCount + limit)}
+            />
           )}
         </Fragment>
       )}
