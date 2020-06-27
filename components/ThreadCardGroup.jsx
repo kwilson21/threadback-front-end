@@ -16,7 +16,6 @@ import {
 } from "@zeit-ui/react";
 import map from "lodash/map";
 import orderBy from "lodash/orderBy";
-import { ChevronUp, ChevronDown } from "@zeit-ui/react-icons";
 import InfiniteLoader from "react-infinite-loader";
 
 // use options.updateData to append the new page of posts to our current list of posts
@@ -33,23 +32,10 @@ export default function ThreadCardGroup(props) {
   const { username } = props;
 
   const [offsetCount, setOffsetCount] = useState(0);
-  const [orderDir, setOrderDir] = useState("desc");
   const [toasts, setToast] = useToasts();
 
   let res;
   const limit = 15;
-
-  const handleOrderDir = (e) => {
-    e.preventDefault();
-    switch (orderDir) {
-      case "desc":
-        setOrderDir("asc");
-        break;
-      case "asc":
-        setOrderDir("desc");
-        break;
-    }
-  };
 
   if (!username) {
     res = useQuery(allThreadsQuery, {
@@ -95,31 +81,17 @@ export default function ThreadCardGroup(props) {
         </Col>
       ) : (
         <Fragment>
-          <Grid xs={12}>
-            {orderDir === "desc" ? (
-              <Link onClick={handleOrderDir}>
-                <ChevronDown />
-              </Link>
-            ) : (
-              <Link onClick={handleOrderDir}>
-                <ChevronUp />
-              </Link>
-            )}
-          </Grid>
-          <Grid xs={12}>
+          <Grid xs={24}>
             <Text size="1rem" style={{ float: "right" }}>
-              {data.threads.count} threads
+              {data.threads.count.toLocaleString()} threads
             </Text>
           </Grid>
           {data &&
-            map(
-              orderBy(data.threads.items, "conversationId", orderDir),
-              (thread) => (
-                <Grid xs={24} sm={12} lg={8} key={thread.conversationId}>
-                  <ThreadCard thread={thread} />
-                </Grid>
-              )
-            )}
+            map(orderBy(data.threads.items, "conversationId"), (thread) => (
+              <Grid xs={24} sm={12} lg={8} key={thread.conversationId}>
+                <ThreadCard thread={thread} />
+              </Grid>
+            ))}
           {loading && (
             <Col align="center" style={{ marginTop: 20, marginBottom: 20 }}>
               <Spinner size="large" />
