@@ -15,7 +15,6 @@ import {
   Text,
 } from "@zeit-ui/react";
 import map from "lodash/map";
-import orderBy from "lodash/orderBy";
 import InfiniteLoader from "react-infinite-loader";
 
 // use options.updateData to append the new page of posts to our current list of posts
@@ -87,7 +86,7 @@ export default function ThreadCardGroup(props) {
             </Text>
           </Grid>
           {data &&
-            map(orderBy(data.threads.items, "conversationId"), (thread) => (
+            map(data.threads.items, (thread) => (
               <Grid xs={24} sm={12} lg={8} key={thread.conversationId}>
                 <ThreadCard thread={thread} />
               </Grid>
