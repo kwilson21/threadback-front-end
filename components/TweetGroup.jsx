@@ -30,7 +30,7 @@ const formatTweet = (tweet, size) => {
     forEach(mentions, (mention) => {
       jsx = jsx.replace(
         new RegExp(`@${mention}`, "gi"),
-        `<Link color href="https://twitter.com/${mention}">$&</Link>`
+        `<Link color href="https://twitter.com/${mention}"><Text ${size} style={{wordBreak: "break-all"}} span>$&</Text></Link>`
       );
     });
   }
@@ -46,17 +46,20 @@ const formatTweet = (tweet, size) => {
         const videoId = url.split("watch?v=").slice(-1);
         jsx = jsx.replace(
           url,
-          `<LazyLoad><YouTube videoId="${videoId}"/></LazyLoad>`
+          `<LazyLoad><YouTube opts={{height:"100%",width:"100%"}} videoId="${videoId}"/></LazyLoad>`
         );
       } else {
-        jsx = jsx.replace(url, `<Link color href="${url}">${url}</Link>`);
+        jsx = jsx.replace(
+          url,
+          `<Link color href="${url}"><Text ${size} style={{wordBreak: "break-all"}} span>${url}</Text></Link>`
+        );
       }
     });
   }
 
   if (extractedUrls.length > 0) {
     forEach(extractedUrls, (extractedUrl) => {
-      const jsxUrl = `<Link color href="${extractedUrl}">${extractedUrl}</Link>`;
+      const jsxUrl = `<Link color href="${extractedUrl}"><Text ${size} style={{wordBreak: "break-all"}} span>${extractedUrl}</Text></Link>`;
       if (extractedUrl.includes("pic.twitter")) {
         let imageStr = "";
         if (video) {
@@ -74,7 +77,9 @@ const formatTweet = (tweet, size) => {
       } else if (
         !jsx.includes(jsxUrl) &&
         !urls.some((url) =>
-          jsx.includes(`<Link color href="${url}">${url}</Link>`)
+          jsx.includes(
+            `<Link color href="${url}"><Text ${size} style={{wordBreak: "break-all"}} span>${url}</Text></Link>`
+          )
         )
       ) {
         jsx = jsx.replace(extractedUrl, jsxUrl);

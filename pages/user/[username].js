@@ -212,7 +212,7 @@ export default function User() {
                         </Grid>
                         <Grid xs={12}>
                           <Text size="1rem" style={{ float: "right" }}>
-                            {`${currentThread + 1} of ${
+                            {`${res.data.threads.count - currentThread} of ${
                               res.data.threads.count
                             }`}
                           </Text>
