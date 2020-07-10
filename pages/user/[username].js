@@ -232,7 +232,7 @@ export default function User() {
                                     onClick={() => {
                                       if (currentThread > 0) {
                                         setCurrentThread(currentThread - 1);
-                                        window.scrollTo(0, 430);
+                                        window.scrollTo(0, 475);
                                       }
                                     }}
                                   >
@@ -245,7 +245,7 @@ export default function User() {
                                   onSwipedRight={() => {
                                     if (currentThread > 0) {
                                       setCurrentThread(currentThread - 1);
-                                      window.scrollTo(0, 430);
+                                      window.scrollTo(0, 475);
                                     }
                                   }}
                                   onSwipedLeft={() => {
@@ -256,7 +256,7 @@ export default function User() {
                                         setOffsetCount(offsetCount + limit);
                                       }
                                       setCurrentThread(currentThread + 1);
-                                      window.scrollTo(0, 430);
+                                      window.scrollTo(0, 475);
                                     }
                                   }}
                                 >
@@ -279,7 +279,7 @@ export default function User() {
                                           setOffsetCount(offsetCount + limit);
                                         }
                                         setCurrentThread(currentThread + 1);
-                                        window.scrollTo(0, 430);
+                                        window.scrollTo(0, 475);
                                       }
                                     }}
                                   >
@@ -303,7 +303,7 @@ export default function User() {
                                     onClick={() => {
                                       if (currentThread > 0) {
                                         setCurrentThread(currentThread - 1);
-                                        window.scrollTo(0, 430);
+                                        window.scrollTo(0, 475);
                                       }
                                     }}
                                   >
@@ -329,7 +329,7 @@ export default function User() {
                                           setOffsetCount(offsetCount + limit);
                                         }
                                         setCurrentThread(currentThread + 1);
-                                        window.scrollTo(0, 430);
+                                        window.scrollTo(0, 475);
                                       }
                                     }}
                                   >
