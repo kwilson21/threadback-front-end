@@ -40,7 +40,7 @@ const formatTweet = (tweet, size) => {
       if (url.includes("status") && url.includes("twitter")) {
         jsx = jsx.replace(
           url,
-          `<LazyLoad><Tweet tweetId="${tweetId}"/></LazyLoad>`
+          `<LazyLoad><Tweet rel="preconnect" tweetId="${tweetId}"/></LazyLoad>`
         );
       } else if (url.includes("youtube") || url.includes("youtu.be")) {
         const videoId = url.split("watch?v=").slice(-1);
@@ -60,7 +60,7 @@ const formatTweet = (tweet, size) => {
       if (extractedUrl.includes("pic.twitter")) {
         let imageStr = "";
         if (video) {
-          imageStr = `<LazyLoad><Tweet tweetId="${tweetId}"/></LazyLoad>`;
+          imageStr = `<LazyLoad><Tweet rel="preconnect" tweetId="${tweetId}"/></LazyLoad>`;
         } else {
           forEach(
             photos,
