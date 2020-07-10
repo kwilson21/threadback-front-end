@@ -219,27 +219,75 @@ export default function User() {
                         </Grid>
                         <Col justify="center">
                           {isMobile && (
-                            <Swipeable
-                              onSwipedRight={() => {
-                                if (currentThread > 0) {
-                                  setCurrentThread(currentThread - 1);
-                                }
-                              }}
-                              onSwipedLeft={() => {
-                                if (currentThread < res.data.threads.count) {
-                                  if (currentThread === offsetCount) {
-                                    setOffsetCount(offsetCount + limit);
-                                  }
-                                  setCurrentThread(currentThread + 1);
-                                }
-                              }}
-                            >
-                              <TweetGroup
-                                tweets={
-                                  res.data.threads.items[currentThread].tweets
-                                }
-                              />
-                            </Swipeable>
+                            <Fragment>
+                              <Col
+                                span={1}
+                                style={{
+                                  visibility:
+                                    currentThread === 0 ? "hidden" : "visible",
+                                }}
+                              >
+                                <Sticky top={window.innerHeight / 2}>
+                                  <a
+                                    onClick={() => {
+                                      if (currentThread > 0) {
+                                        setCurrentThread(currentThread - 1);
+                                        window.scrollTo(0, 430);
+                                      }
+                                    }}
+                                  >
+                                    <ArrowLeft />
+                                  </a>
+                                </Sticky>
+                              </Col>
+                              <Col span={22}>
+                                <Swipeable
+                                  onSwipedRight={() => {
+                                    if (currentThread > 0) {
+                                      setCurrentThread(currentThread - 1);
+                                      window.scrollTo(0, 430);
+                                    }
+                                  }}
+                                  onSwipedLeft={() => {
+                                    if (
+                                      currentThread < res.data.threads.count
+                                    ) {
+                                      if (currentThread === offsetCount) {
+                                        setOffsetCount(offsetCount + limit);
+                                      }
+                                      setCurrentThread(currentThread + 1);
+                                      window.scrollTo(0, 430);
+                                    }
+                                  }}
+                                >
+                                  <TweetGroup
+                                    tweets={
+                                      res.data.threads.items[currentThread]
+                                        .tweets
+                                    }
+                                  />
+                                </Swipeable>
+                              </Col>
+                              <Col span={1}>
+                                <Sticky top={window.innerHeight / 2}>
+                                  <a
+                                    onClick={() => {
+                                      if (
+                                        currentThread < res.data.threads.count
+                                      ) {
+                                        if (currentThread === offsetCount) {
+                                          setOffsetCount(offsetCount + limit);
+                                        }
+                                        setCurrentThread(currentThread + 1);
+                                        window.scrollTo(0, 430);
+                                      }
+                                    }}
+                                  >
+                                    <ArrowRight />
+                                  </a>
+                                </Sticky>
+                              </Col>
+                            </Fragment>
                           )}
                           {isBrowser && (
                             <Fragment>
@@ -255,6 +303,7 @@ export default function User() {
                                     onClick={() => {
                                       if (currentThread > 0) {
                                         setCurrentThread(currentThread - 1);
+                                        window.scrollTo(0, 430);
                                       }
                                     }}
                                   >
@@ -280,6 +329,7 @@ export default function User() {
                                           setOffsetCount(offsetCount + limit);
                                         }
                                         setCurrentThread(currentThread + 1);
+                                        window.scrollTo(0, 430);
                                       }
                                     }}
                                   >
