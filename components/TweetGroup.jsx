@@ -46,7 +46,7 @@ const formatTweet = (tweet, size) => {
         const videoId = url.split("watch?v=").slice(-1);
         jsx = jsx.replace(
           url,
-          `<LazyLoad><YouTube opts={{height:"100%",width:"100%"}} videoId="${videoId}"/></LazyLoad>`
+          `<LazyLoad><YouTube opts={{width:"100%"}} videoId="${videoId}"/></LazyLoad>`
         );
       } else {
         jsx = jsx.replace(
