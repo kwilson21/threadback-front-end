@@ -24,6 +24,7 @@ import TweetGroup from "../components/TweetGroup";
 import { isMobile, isBrowser } from "react-device-detect";
 import { ArrowLeft, ArrowRight } from "@zeit-ui/react-icons";
 import UserHead from "../components/UserHead";
+import { Swipeable } from "react-swipeable";
 
 const updateData = (prevData, data) => {
   return {
@@ -64,8 +65,6 @@ export default function Home() {
     );
 
   const hasMoreThreads = data.threads.items.length < data.threads.count;
-
-  console.log(data);
 
   return (
     <Page>
