@@ -61,11 +61,11 @@ export default function Home() {
   if (loading && !data) {
     return (
       <Fragment>
-        <Head>
+        {/* <Head>
           <title>Threadback | Home</title>
           <link rel="icon" href="/favicon.ico" />
           <meta
-            property="og:description"
+            name="og:description"
             content="Catch up on all of your favorite twitter user's threads with ThreadBack"
           />
           <meta
@@ -76,7 +76,7 @@ export default function Home() {
             name="keywords"
             content="twitter, twitter replies, twitter mentions, twitter thread"
           />
-        </Head>
+        </Head> */}
         <Page>
           <Container style={{ left: "50%" }}>
             <Page.Content>
@@ -96,7 +96,7 @@ export default function Home() {
         <title>Threadback | Home</title>
         <link rel="icon" href="/favicon.ico" />
         <meta
-          property="og:description"
+          name="og:description"
           content="Catch up on all of your favorite twitter user's threads with ThreadBack"
         />
         <meta
