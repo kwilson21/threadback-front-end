@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import getUrls from "get-urls";
 import { Tweet } from "react-twitter-widgets";
 import YouTube from "react-youtube";
@@ -108,17 +108,21 @@ const formatTweet = (tweet, size) => {
 export default function TweetGroup(props) {
   const { tweets, size } = props;
 
-  const sortedTweets = orderBy(tweets, "tweetId");
+  const sortedTweets = useMemo(() => orderBy(tweets, "tweetId"), [tweets]);
 
   return (
     <Fragment>
-      {map(sortedTweets, (tweet, idx) => {
-        return (
-          <Grid xs={24} key={idx}>
-            {formatTweet(tweet, size ? size : 'size="1.5rem"')}
-          </Grid>
-        );
-      })}
+      {useMemo(
+        () =>
+          map(sortedTweets, (tweet, idx) => {
+            return (
+              <Grid xs={24} key={idx}>
+                {formatTweet(tweet, size ? size : 'size="1.5rem"')}
+              </Grid>
+            );
+          }),
+        [sortedTweets]
+      )}
     </Fragment>
   );
 }

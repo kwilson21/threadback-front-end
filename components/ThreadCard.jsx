@@ -12,11 +12,14 @@ import Router from "next/router";
 import TweetGroup from "./TweetGroup";
 import moment from "moment-timezone";
 import orderBy from "lodash/orderBy";
+import { useMemo } from "react";
 
 export default function ThreadCard(props) {
   const { thread } = props;
 
-  thread.tweets = orderBy(thread.tweets, "tweetId");
+  thread.tweets = useMemo(() => orderBy(thread.tweets, "tweetId"), [
+    thread.tweets,
+  ]);
 
   return (
     // <Link onClick={() => Router.push(`/thread/${thread.conversationId}`)}>
@@ -27,11 +30,7 @@ export default function ThreadCard(props) {
             <UserHead user={thread.user} />
           </Col>
           <Col>
-            <Text h6>
-              {moment
-                .utc(thread.tweets[0].date)
-                .format("MMMM Do YYYY, h:mma z")}
-            </Text>
+            <Text h6>{moment.utc(thread.tweets[0].date).fromNow()}</Text>
           </Col>
         </Container>
       </Card.Content>
