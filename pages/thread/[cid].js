@@ -92,6 +92,31 @@ export default function Thread() {
         <Error statusCode={404} />
       ) : (
         <Fragment>
+          <NextSeo
+            description={description}
+            title={`ThreadBack | ${description}`}
+            keywords="twitter, twitter replies, twitter mentions, twitter thread"
+            openGraph={{
+              title: description,
+              images: [
+                {
+                  url: thread.user.profilePhoto,
+                  width: 400,
+                  height: 400,
+                  alt: "User profile photo",
+                },
+              ],
+              url: windowLocation,
+              description: description,
+              type: "article",
+              article: {
+                authors: [thread.user.link],
+              },
+            }}
+            twitter={{
+              handle: `@${username}`,
+            }}
+          />
           <Head>
             <title>ThreadBack | {description}</title>
             <link rel="icon" href="/favicon.ico" />

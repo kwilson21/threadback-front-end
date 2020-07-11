@@ -32,6 +32,7 @@ import moment from "moment-timezone";
 import { isMobile, isBrowser } from "react-device-detect";
 import { ArrowLeft, ArrowRight } from "@zeit-ui/react-icons";
 import Scroll from "react-scroll";
+import { NextSeo } from "next-seo";
 
 const updateData = (prevData, data) => {
   return {
@@ -143,24 +144,24 @@ export default function User() {
         </Fragment>
       ) : (
         <Fragment>
-          <Head>
-            <title>ThreadBack | @{username}'s threads</title>
-            <link rel="icon" href="/favicon.ico" />
-            <meta name="og:title" content={`@${username}'s threads`} />
-            <meta name="og:image" content={user.profilePhoto} />
-            <meta
-              name="og:description"
-              content="Catch up on all of your favorite twitter user's threads with ThreadBack"
-            />
-            <meta
-              name="description"
-              content="Catch up on all of your favorite twitter user's threads with ThreadBack"
-            />
-            <meta
-              name="keywords"
-              content="twitter, twitter replies, twitter mentions, twitter thread"
-            />
-          </Head>
+          <NextSeo
+            title={`ThreadBack | @${username}'s threads`}
+            keywords="twitter, twitter replies, twitter mentions, twitter thread"
+            openGraph={{
+              title: `@${username}'s threads`,
+              images: [
+                {
+                  url: user.profilePhoto,
+                  width: 400,
+                  height: 400,
+                  alt: "User profile photo",
+                },
+              ],
+            }}
+            twitter={{
+              handle: `@${username}`,
+            }}
+          />
           <Page>
             <Container style={{ margin: "0 auto" }}>
               <Page.Content>

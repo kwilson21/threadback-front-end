@@ -2,6 +2,9 @@
 import { GraphQLClient, ClientContext } from "graphql-hooks";
 import { ZeitProvider, CssBaseline } from "@zeit-ui/react";
 import NavBar from "../components/NavBar";
+import { DefaultSeo } from "next-seo";
+import SEO from "../next-seo.config";
+import Head from "next/head";
 
 const client = new GraphQLClient({
   url: process.env.NEXT_PUBLIC_GRAPHQL_URL,
@@ -13,6 +16,10 @@ function MyApp({ Component, pageProps }) {
     <ClientContext.Provider value={client}>
       <ZeitProvider>
         <CssBaseline />
+        <DefaultSeo {...SEO} />
+        <Head>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
         <NavBar />
         <Component {...pageProps} />
       </ZeitProvider>
