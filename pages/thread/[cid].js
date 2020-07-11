@@ -4,7 +4,6 @@ import { useQuery, useMutation } from "graphql-hooks";
 import { getAThreadQuery } from "../../queries/getAThreadQuery";
 import {
   Grid,
-  Spacer,
   Container,
   useToasts,
   Spinner,
@@ -50,11 +49,32 @@ export default function Thread() {
 
   if (loading) {
     return (
-      <Container style={{ padding: 20, margin: "0 auto" }} justify="center">
-        <Spacer x={8} />
-        <Spinner size="large" />
-        <Spacer x={8} />
-      </Container>
+      <Fragment>
+        <Head>
+          <title>ThreadBack</title>
+          <link rel="icon" href="/favicon.ico" />
+          <meta
+            property="og:description"
+            content="Catch up on all of your favorite twitter user's threads with ThreadBack"
+          />
+          <meta
+            name="description"
+            content="Catch up on all of your favorite twitter user's threads with ThreadBack"
+          />
+          <meta
+            name="keywords"
+            content="twitter, twitter replies, twitter mentions, twitter thread"
+          />
+          <meta property="og:type" content="article" />
+        </Head>
+        <Page>
+          <Container style={{ left: "50%" }}>
+            <Page.Content>
+              <Spinner size="large" />
+            </Page.Content>
+          </Container>
+        </Page>
+      </Fragment>
     );
   }
 
@@ -71,55 +91,57 @@ export default function Thread() {
       {!data && !error ? (
         <Error statusCode={404} />
       ) : (
-        <Page>
-          <Container style={{ margin: "0 auto" }}>
-            <Head>
-              <title>ThreadBack | {description}</title>
-              <link rel="icon" href="/favicon.ico" />
-              <meta property="og:title" content={description} />
-              <meta property="og:image" content={thread.user.profilePhoto} />
-              <meta property="og:url" content={windowLocation} />
-              <meta property="og:description" content={description} />
-              <meta property="article:author" content={thread.user.link} />
-              <meta property="og:type" content="article" />
-            </Head>
-            <Page.Content>
-              <Grid.Container gap={2}>
-                <Grid xs={24}>
-                  <Container justify="center">
-                    <UserHead user={thread.user} />
-                    <RefreshUserButton
-                      loading={refreshRes.loading}
-                      refreshUser={refreshUser}
-                      status={
-                        refreshRes.data
-                          ? refreshRes.data.refresh.status
-                          : thread.user.status
-                      }
-                    />
-                  </Container>
-                </Grid>
-              </Grid.Container>
+        <Fragment>
+          <Head>
+            <title>ThreadBack | {description}</title>
+            <link rel="icon" href="/favicon.ico" />
+            <meta property="og:title" content={description} />
+            <meta property="og:image" content={thread.user.profilePhoto} />
+            <meta property="og:url" content={windowLocation} />
+            <meta property="og:description" content={description} />
+            <meta property="article:author" content={thread.user.link} />
+            <meta property="og:type" content="article" />
+          </Head>
+          <Page>
+            <Container style={{ margin: "0 auto" }}>
+              <Page.Content>
+                <Grid.Container gap={2}>
+                  <Grid xs={24}>
+                    <Container justify="center">
+                      <UserHead user={thread.user} />
+                      <RefreshUserButton
+                        loading={refreshRes.loading}
+                        refreshUser={refreshUser}
+                        status={
+                          refreshRes.data
+                            ? refreshRes.data.refresh.status
+                            : thread.user.status
+                        }
+                      />
+                    </Container>
+                  </Grid>
+                </Grid.Container>
 
-              <Divider align="center" />
-              <Grid.Container gap={2}>
-                <Grid xs={24}>
-                  <Text h2>Search</Text>
-                </Grid>
-                <Grid xs>
-                  <Sticky innerZ={999}>
-                    <SearchBox />
-                  </Sticky>
-                </Grid>
-              </Grid.Container>
-              <Divider align="center" />
+                <Divider align="center" />
+                <Grid.Container gap={2}>
+                  <Grid xs={24}>
+                    <Text h2>Search</Text>
+                  </Grid>
+                  <Grid xs>
+                    <Sticky innerZ={999}>
+                      <SearchBox />
+                    </Sticky>
+                  </Grid>
+                </Grid.Container>
+                <Divider align="center" />
 
-              <Grid.Container gap={2}>
-                <TweetGroup tweets={thread.tweets} />
-              </Grid.Container>
-            </Page.Content>
-          </Container>
-        </Page>
+                <Grid.Container gap={2}>
+                  <TweetGroup tweets={thread.tweets} />
+                </Grid.Container>
+              </Page.Content>
+            </Container>
+          </Page>
+        </Fragment>
       )}
     </Fragment>
   );

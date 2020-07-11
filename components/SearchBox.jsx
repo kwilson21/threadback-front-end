@@ -64,15 +64,6 @@ export default function SearchBox() {
     });
   }
 
-  if (loading)
-    return (
-      <Container style={{ padding: 20, margin: "0 auto" }} justify="center">
-        <Spacer x={8} />
-        <Spinner size="large" />
-        <Spacer x={8} />
-      </Container>
-    );
-
   return (
     <Fragment>
       <Row>
