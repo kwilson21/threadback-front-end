@@ -63,21 +63,14 @@ export default function User() {
   let res;
   const limit = 15;
 
-  if (!username) {
-    res = useQuery(allThreadsQuery, {
-      variables: { offset: offsetCount, limit },
-      updateData,
-    });
-  } else {
-    res = useQuery(getUserThreadsQuery, {
-      variables: {
-        offset: offsetCount,
-        limit,
-        usernames: [username],
-      },
-      updateData,
-    });
-  }
+  res = useQuery(getUserThreadsQuery, {
+    variables: {
+      offset: offsetCount,
+      limit,
+      usernames: [username],
+    },
+    updateData,
+  });
 
   const [refreshUser, refreshRes] = useMutation(refreshThreadsMutation, {
     variables: { username: username },
@@ -93,23 +86,6 @@ export default function User() {
   if (loading) {
     return (
       <Fragment>
-        {/* <Head>
-          <title>ThreadBack | @{username}'s threads</title>
-          <link rel="icon" href="/favicon.ico" />
-          <meta name="og:title" content={`@${username}'s threads`} />
-          <meta
-            name="og:description"
-            content="Catch up on all of your favorite twitter user's threads with ThreadBack"
-          />
-          <meta
-            name="description"
-            content="Catch up on all of your favorite twitter user's threads with ThreadBack"
-          />
-          <meta
-            name="keywords"
-            content="twitter, twitter replies, twitter mentions, twitter thread"
-          />
-        </Head> */}
         <Page>
           <Container style={{ left: "50%" }}>
             <Page.Content>
