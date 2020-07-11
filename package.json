@@ -15,6 +15,7 @@
     "lodash": "^4.17.15",
     "moment-timezone": "^0.5.31",
     "next": "9.4.4",
+    "next-seo": "^4.7.2",
     "react": "16.13.1",
     "react-device-detect": "^1.13.1",
     "react-dom": "16.13.1",

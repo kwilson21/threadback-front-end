@@ -25,6 +25,7 @@ import { ArrowLeft, ArrowRight } from "@zeit-ui/react-icons";
 import UserHead from "../components/UserHead";
 import { Swipeable } from "react-swipeable";
 import Scroll from "react-scroll";
+import { NextSeo } from "next-seo";
 
 const updateData = (prevData, data) => {
   return {
@@ -92,22 +93,13 @@ export default function Home() {
 
   return (
     <Fragment>
-      <Head>
-        <title>Threadback | Home</title>
-        <link rel="icon" href="/favicon.ico" />
-        <meta
-          name="og:description"
-          content="Catch up on all of your favorite twitter user's threads with ThreadBack"
-        />
-        <meta
-          name="description"
-          content="Catch up on all of your favorite twitter user's threads with ThreadBack"
-        />
-        <meta
-          name="keywords"
-          content="twitter, twitter replies, twitter mentions, twitter thread"
-        />
-      </Head>
+      <NextSeo
+        title="Threadback | Home"
+        openGraph={{
+          title: "Threadback | Home",
+        }}
+      />
+
       <Page>
         <Container style={{ margin: "0 auto" }}>
           <Page.Content>
