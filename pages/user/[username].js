@@ -259,7 +259,7 @@ export default function User() {
                                         if (currentThread > 0) {
                                           setCurrentThread(currentThread - 1);
                                           scroller.scrollTo("tweetGroup", {
-                                            smooth: true,
+                                            smooth: "easeOutQuad",
                                             delay: 2,
                                             duration: 500,
                                             offset: -150,
@@ -277,7 +277,7 @@ export default function User() {
                                       if (currentThread > 0) {
                                         setCurrentThread(currentThread - 1);
                                         scroller.scrollTo("tweetGroup", {
-                                          smooth: true,
+                                          smooth: "easeOutQuad",
                                           delay: 2,
                                           duration: 500,
                                           offset: -150,
@@ -293,7 +293,7 @@ export default function User() {
                                         }
                                         setCurrentThread(currentThread + 1);
                                         scroller.scrollTo("tweetGroup", {
-                                          smooth: true,
+                                          smooth: "easeOutQuad",
                                           delay: 2,
                                           duration: 500,
                                           offset: -150,
@@ -322,7 +322,7 @@ export default function User() {
                                           }
                                           setCurrentThread(currentThread + 1);
                                           scroller.scrollTo("tweetGroup", {
-                                            smooth: true,
+                                            smooth: "easeOutQuad",
                                             delay: 2,
                                             duration: 500,
                                             offset: -150,
@@ -353,7 +353,7 @@ export default function User() {
                                         if (currentThread > 0) {
                                           setCurrentThread(currentThread - 1);
                                           scroller.scrollTo("tweetGroup", {
-                                            smooth: true,
+                                            smooth: "easeOutQuad",
                                             delay: 2,
                                             duration: 500,
                                             offset: -150,
@@ -386,7 +386,7 @@ export default function User() {
                                           }
                                           setCurrentThread(currentThread + 1);
                                           scroller.scrollTo("tweetGroup", {
-                                            smooth: true,
+                                            smooth: "easeOutQuad",
                                             delay: 2,
                                             duration: 500,
                                             offset: -150,
