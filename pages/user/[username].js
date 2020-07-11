@@ -2,7 +2,6 @@ import Head from "next/head";
 import UserHead from "../../components/UserHead";
 import {
   Grid,
-  Spacer,
   Container,
   useToasts,
   Spinner,
@@ -32,6 +31,7 @@ import TweetGroup from "../../components/TweetGroup";
 import moment from "moment-timezone";
 import { isMobile, isBrowser } from "react-device-detect";
 import { ArrowLeft, ArrowRight } from "@zeit-ui/react-icons";
+import Scroll from "react-scroll";
 
 const updateData = (prevData, data) => {
   return {
@@ -51,6 +51,9 @@ export default function User() {
   const { visible, setVisible, bindings } = useModal(true);
   const [offsetCount, setOffsetCount] = useState(0);
   const [currentThread, setCurrentThread] = useState(0);
+
+  const scroller = Scroll.scroller;
+  const Element = Scroll.Element;
 
   const { loading, error, data } = useQuery(getAUserQuery, {
     variables: { offset: 0, limit: 1, usernames: [username] },
@@ -88,11 +91,32 @@ export default function User() {
 
   if (loading) {
     return (
-      <Container style={{ padding: 20, margin: "0 auto" }} justify="center">
-        <Spacer x={8} />
-        <Spinner size="large" />
-        <Spacer x={8} />
-      </Container>
+      <Fragment>
+        <Head>
+          <title>ThreadBack | @{username}'s threads</title>
+          <link rel="icon" href="/favicon.ico" />
+          <meta property="og:title" content={`@${username}'s threads`} />
+          <meta
+            property="og:description"
+            content="Catch up on all of your favorite twitter user's threads with ThreadBack"
+          />
+          <meta
+            name="description"
+            content="Catch up on all of your favorite twitter user's threads with ThreadBack"
+          />
+          <meta
+            name="keywords"
+            content="twitter, twitter replies, twitter mentions, twitter thread"
+          />
+        </Head>
+        <Page>
+          <Container style={{ left: "50%" }}>
+            <Page.Content>
+              <Spinner size="large" />
+            </Page.Content>
+          </Container>
+        </Page>
+      </Fragment>
     );
   }
 
@@ -118,241 +142,279 @@ export default function User() {
           />
         </Fragment>
       ) : (
-        <Page>
-          <Container style={{ margin: "0 auto" }}>
-            <Head>
-              <title>ThreadBack | @{username}'s threads</title>
-              <link rel="icon" href="/favicon.ico" />
-              <meta property="og:title" content={`@${username}'s threads`} />
-              <meta property="og:image" content={user.profilePhoto} />
-              <meta
-                property="og:description"
-                content="Catch up on all of your favorite twitter user's threads with ThreadBack"
-              />
-              <meta
-                name="description"
-                content="Catch up on all of your favorite twitter user's threads with ThreadBack"
-              />
-              <meta
-                name="keywords"
-                content="twitter, twitter replies, twitter mentions, twitter thread"
-              />
-            </Head>
+        <Fragment>
+          <Head>
+            <title>ThreadBack | @{username}'s threads</title>
+            <link rel="icon" href="/favicon.ico" />
+            <meta property="og:title" content={`@${username}'s threads`} />
+            <meta property="og:image" content={user.profilePhoto} />
+            <meta
+              property="og:description"
+              content="Catch up on all of your favorite twitter user's threads with ThreadBack"
+            />
+            <meta
+              name="description"
+              content="Catch up on all of your favorite twitter user's threads with ThreadBack"
+            />
+            <meta
+              name="keywords"
+              content="twitter, twitter replies, twitter mentions, twitter thread"
+            />
+          </Head>
+          <Page>
+            <Container style={{ margin: "0 auto" }}>
+              <Page.Content>
+                <Grid.Container gap={2}>
+                  <Grid xs={24}>
+                    <Container justify="center">
+                      <UserHead user={user} />
+                      <RefreshUserButton
+                        loading={refreshRes.loading}
+                        refreshUser={refreshUser}
+                        status={
+                          refreshRes.data
+                            ? refreshRes.data.refresh.status
+                            : user.status
+                        }
+                      />
+                    </Container>
+                  </Grid>
+                </Grid.Container>
 
-            <Page.Content>
-              <Grid.Container gap={2}>
-                <Grid xs={24}>
-                  <Container justify="center">
-                    <UserHead user={user} />
-                    <RefreshUserButton
-                      loading={refreshRes.loading}
-                      refreshUser={refreshUser}
-                      status={
-                        refreshRes.data
-                          ? refreshRes.data.refresh.status
-                          : user.status
-                      }
+                <Divider align="center" />
+                <Grid.Container gap={2}>
+                  <Grid xs={24}>
+                    <Text h2>Search</Text>
+                  </Grid>
+                  <Grid xs>
+                    <Sticky innerZ={999}>
+                      <SearchBox />
+                    </Sticky>
+                  </Grid>
+                </Grid.Container>
+                <Divider align="center" />
+                <Grid.Container gap={2}>
+                  <Grid xs={24}>
+                    <Text h2>View type</Text>
+                  </Grid>
+                  <Grid xs>
+                    <Select
+                      value={threadView}
+                      initialValue={threadView}
+                      placeholder={threadView}
+                      onChange={(v) => setThreadView(v)}
+                      size="large"
+                    >
+                      <Select.Option value="single">Single</Select.Option>
+                      <Select.Option value="multiple">Multiple</Select.Option>
+                    </Select>
+                  </Grid>
+                </Grid.Container>
+                <Divider align="center" />
+                <Grid.Container gap={2}>
+                  {res.data && threadView === "multiple" ? (
+                    <ThreadCardGroup
+                      data={res.data}
+                      hasMoreThreads={hasMoreThreads}
+                      setOffsetCount={setOffsetCount}
+                      offsetCount={offsetCount}
+                      limit={limit}
                     />
-                  </Container>
-                </Grid>
-              </Grid.Container>
-
-              <Divider align="center" />
-              <Grid.Container gap={2}>
-                <Grid xs={24}>
-                  <Text h2>Search</Text>
-                </Grid>
-                <Grid xs>
-                  <Sticky innerZ={999}>
-                    <SearchBox />
-                  </Sticky>
-                </Grid>
-              </Grid.Container>
-              <Divider align="center" />
-              <Grid.Container gap={2}>
-                <Grid xs={24}>
-                  <Text h2>View type</Text>
-                </Grid>
-                <Grid xs>
-                  <Select
-                    value={threadView}
-                    initialValue={threadView}
-                    placeholder={threadView}
-                    onChange={(v) => setThreadView(v)}
-                    size="large"
-                  >
-                    <Select.Option value="single">Single</Select.Option>
-                    <Select.Option value="multiple">Multiple</Select.Option>
-                  </Select>
-                </Grid>
-              </Grid.Container>
-              <Divider align="center" />
-              <Grid.Container gap={2}>
-                {res.data && threadView === "multiple" ? (
-                  <ThreadCardGroup
-                    data={res.data}
-                    hasMoreThreads={hasMoreThreads}
-                    setOffsetCount={setOffsetCount}
-                    offsetCount={offsetCount}
-                    limit={limit}
-                  />
-                ) : (
-                  <Fragment>
-                    {res.data && (
-                      <Fragment>
-                        <Grid xs={12}>
-                          <Text size="1rem" style={{ float: "left" }}>
-                            {moment
-                              .utc(
-                                res.data.threads.items[currentThread].tweets[0]
-                                  .date
-                              )
-                              .fromNow()}
-                          </Text>
-                        </Grid>
-                        <Grid xs={12}>
-                          <Text size="1rem" style={{ float: "right" }}>
-                            {`${res.data.threads.count - currentThread} of ${
-                              res.data.threads.count
-                            }`}
-                          </Text>
-                        </Grid>
-                        <Col justify="center">
-                          {isMobile && (
-                            <Fragment>
-                              <Col
-                                span={1}
-                                style={{
-                                  visibility:
-                                    currentThread === 0 ? "hidden" : "visible",
-                                }}
-                              >
-                                <Sticky top={window.innerHeight / 2}>
-                                  <a
-                                    onClick={() => {
+                  ) : (
+                    <Fragment>
+                      {res.data && (
+                        <Fragment>
+                          <Grid xs={12}>
+                            <Text size="1rem" style={{ float: "left" }}>
+                              {moment
+                                .utc(
+                                  res.data.threads.items[currentThread]
+                                    .tweets[0].date
+                                )
+                                .fromNow()}
+                            </Text>
+                          </Grid>
+                          <Grid xs={12}>
+                            <Text size="1rem" style={{ float: "right" }}>
+                              {`${res.data.threads.count - currentThread} of ${
+                                res.data.threads.count
+                              }`}
+                            </Text>
+                          </Grid>
+                          <Col justify="center">
+                            {isMobile && (
+                              <Fragment>
+                                <Col
+                                  span={1}
+                                  style={{
+                                    visibility:
+                                      currentThread === 0
+                                        ? "hidden"
+                                        : "visible",
+                                  }}
+                                >
+                                  <Sticky top={window.innerHeight / 2}>
+                                    <a
+                                      onClick={() => {
+                                        if (currentThread > 0) {
+                                          setCurrentThread(currentThread - 1);
+                                          scroller.scrollTo("tweetGroup", {
+                                            smooth: true,
+                                            delay: 2,
+                                            duration: 500,
+                                            offset: -150,
+                                          });
+                                        }
+                                      }}
+                                    >
+                                      <ArrowLeft />
+                                    </a>
+                                  </Sticky>
+                                </Col>
+                                <Col span={22}>
+                                  <Swipeable
+                                    onSwipedRight={() => {
                                       if (currentThread > 0) {
                                         setCurrentThread(currentThread - 1);
-                                        window.scrollTo(0, 475);
+                                        scroller.scrollTo("tweetGroup", {
+                                          smooth: true,
+                                          delay: 2,
+                                          duration: 500,
+                                          offset: -150,
+                                        });
+                                      }
+                                    }}
+                                    onSwipedLeft={() => {
+                                      if (
+                                        currentThread < res.data.threads.count
+                                      ) {
+                                        if (currentThread === offsetCount) {
+                                          setOffsetCount(offsetCount + limit);
+                                        }
+                                        setCurrentThread(currentThread + 1);
+                                        scroller.scrollTo("tweetGroup", {
+                                          smooth: true,
+                                          delay: 2,
+                                          duration: 500,
+                                          offset: -150,
+                                        });
                                       }
                                     }}
                                   >
-                                    <ArrowLeft />
-                                  </a>
-                                </Sticky>
-                              </Col>
-                              <Col span={22}>
-                                <Swipeable
-                                  onSwipedRight={() => {
-                                    if (currentThread > 0) {
-                                      setCurrentThread(currentThread - 1);
-                                      window.scrollTo(0, 475);
-                                    }
-                                  }}
-                                  onSwipedLeft={() => {
-                                    if (
-                                      currentThread < res.data.threads.count
-                                    ) {
-                                      if (currentThread === offsetCount) {
-                                        setOffsetCount(offsetCount + limit);
+                                    <Element name="tweetGroup" />
+                                    <TweetGroup
+                                      tweets={
+                                        res.data.threads.items[currentThread]
+                                          .tweets
                                       }
-                                      setCurrentThread(currentThread + 1);
-                                      window.scrollTo(0, 475);
-                                    }
+                                    />
+                                  </Swipeable>
+                                </Col>
+                                <Col span={1}>
+                                  <Sticky top={window.innerHeight / 2}>
+                                    <a
+                                      onClick={() => {
+                                        if (
+                                          currentThread < res.data.threads.count
+                                        ) {
+                                          if (currentThread === offsetCount) {
+                                            setOffsetCount(offsetCount + limit);
+                                          }
+                                          setCurrentThread(currentThread + 1);
+                                          scroller.scrollTo("tweetGroup", {
+                                            smooth: true,
+                                            delay: 2,
+                                            duration: 500,
+                                            offset: -150,
+                                          });
+                                        }
+                                      }}
+                                    >
+                                      <ArrowRight />
+                                    </a>
+                                  </Sticky>
+                                </Col>
+                              </Fragment>
+                            )}
+                            {isBrowser && (
+                              <Fragment>
+                                <Col
+                                  span={1}
+                                  style={{
+                                    visibility:
+                                      currentThread === 0
+                                        ? "hidden"
+                                        : "visible",
                                   }}
                                 >
+                                  <Sticky top={window.innerHeight / 2}>
+                                    <a
+                                      onClick={() => {
+                                        if (currentThread > 0) {
+                                          setCurrentThread(currentThread - 1);
+                                          scroller.scrollTo("tweetGroup", {
+                                            smooth: true,
+                                            delay: 2,
+                                            duration: 500,
+                                            offset: -150,
+                                          });
+                                        }
+                                      }}
+                                    >
+                                      <ArrowLeft />
+                                    </a>
+                                  </Sticky>
+                                </Col>
+                                <Col span={22}>
+                                  <Element name="tweetGroup" />
                                   <TweetGroup
                                     tweets={
                                       res.data.threads.items[currentThread]
                                         .tweets
                                     }
                                   />
-                                </Swipeable>
-                              </Col>
-                              <Col span={1}>
-                                <Sticky top={window.innerHeight / 2}>
-                                  <a
-                                    onClick={() => {
-                                      if (
-                                        currentThread < res.data.threads.count
-                                      ) {
-                                        if (currentThread === offsetCount) {
-                                          setOffsetCount(offsetCount + limit);
+                                </Col>
+                                <Col span={1}>
+                                  <Sticky top={window.innerHeight / 2}>
+                                    <a
+                                      onClick={() => {
+                                        if (
+                                          currentThread < res.data.threads.count
+                                        ) {
+                                          if (currentThread === offsetCount) {
+                                            setOffsetCount(offsetCount + limit);
+                                          }
+                                          setCurrentThread(currentThread + 1);
+                                          scroller.scrollTo("tweetGroup", {
+                                            smooth: true,
+                                            delay: 2,
+                                            duration: 500,
+                                            offset: -150,
+                                          });
                                         }
-                                        setCurrentThread(currentThread + 1);
-                                        window.scrollTo(0, 475);
-                                      }
-                                    }}
-                                  >
-                                    <ArrowRight />
-                                  </a>
-                                </Sticky>
-                              </Col>
-                            </Fragment>
-                          )}
-                          {isBrowser && (
-                            <Fragment>
-                              <Col
-                                span={1}
-                                style={{
-                                  visibility:
-                                    currentThread === 0 ? "hidden" : "visible",
-                                }}
-                              >
-                                <Sticky top={window.innerHeight / 2}>
-                                  <a
-                                    onClick={() => {
-                                      if (currentThread > 0) {
-                                        setCurrentThread(currentThread - 1);
-                                        window.scrollTo(0, 475);
-                                      }
-                                    }}
-                                  >
-                                    <ArrowLeft />
-                                  </a>
-                                </Sticky>
-                              </Col>
-                              <Col span={22}>
-                                <TweetGroup
-                                  tweets={
-                                    res.data.threads.items[currentThread].tweets
-                                  }
-                                />
-                              </Col>
-                              <Col span={1}>
-                                <Sticky top={window.innerHeight / 2}>
-                                  <a
-                                    onClick={() => {
-                                      if (
-                                        currentThread < res.data.threads.count
-                                      ) {
-                                        if (currentThread === offsetCount) {
-                                          setOffsetCount(offsetCount + limit);
-                                        }
-                                        setCurrentThread(currentThread + 1);
-                                        window.scrollTo(0, 475);
-                                      }
-                                    }}
-                                  >
-                                    <ArrowRight />
-                                  </a>
-                                </Sticky>
-                              </Col>
-                            </Fragment>
-                          )}
-                        </Col>
-                      </Fragment>
-                    )}
-                  </Fragment>
-                )}
-                {res.loading && (
-                  <Col align="center">
-                    <Spinner size="large" />
-                  </Col>
-                )}
-              </Grid.Container>
-            </Page.Content>
-          </Container>
-        </Page>
+                                      }}
+                                    >
+                                      <ArrowRight />
+                                    </a>
+                                  </Sticky>
+                                </Col>
+                              </Fragment>
+                            )}
+                          </Col>
+                        </Fragment>
+                      )}
+                    </Fragment>
+                  )}
+                  {res.loading && res.data && (
+                    <Col align="center">
+                      <Spinner size="large" />
+                    </Col>
+                  )}
+                </Grid.Container>
+              </Page.Content>
+            </Container>
+          </Page>
+        </Fragment>
       )}
     </Fragment>
   );
