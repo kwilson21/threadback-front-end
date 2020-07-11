@@ -55,7 +55,7 @@ export default function Home() {
     });
   }
 
-  if (loading && !data)
+  if (loading)
     return (
       <Container style={{ padding: 20, margin: "0 auto" }} justify="center">
         <Spacer x={8} />
