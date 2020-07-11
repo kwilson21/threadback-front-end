@@ -92,12 +92,12 @@ export default function User() {
   if (loading) {
     return (
       <Fragment>
-        <Head>
+        {/* <Head>
           <title>ThreadBack | @{username}'s threads</title>
           <link rel="icon" href="/favicon.ico" />
-          <meta property="og:title" content={`@${username}'s threads`} />
+          <meta name="og:title" content={`@${username}'s threads`} />
           <meta
-            property="og:description"
+            name="og:description"
             content="Catch up on all of your favorite twitter user's threads with ThreadBack"
           />
           <meta
@@ -108,7 +108,7 @@ export default function User() {
             name="keywords"
             content="twitter, twitter replies, twitter mentions, twitter thread"
           />
-        </Head>
+        </Head> */}
         <Page>
           <Container style={{ left: "50%" }}>
             <Page.Content>
@@ -146,10 +146,10 @@ export default function User() {
           <Head>
             <title>ThreadBack | @{username}'s threads</title>
             <link rel="icon" href="/favicon.ico" />
-            <meta property="og:title" content={`@${username}'s threads`} />
-            <meta property="og:image" content={user.profilePhoto} />
+            <meta name="og:title" content={`@${username}'s threads`} />
+            <meta name="og:image" content={user.profilePhoto} />
             <meta
-              property="og:description"
+              name="og:description"
               content="Catch up on all of your favorite twitter user's threads with ThreadBack"
             />
             <meta

@@ -50,11 +50,11 @@ export default function Thread() {
   if (loading) {
     return (
       <Fragment>
-        <Head>
+        {/* <Head>
           <title>ThreadBack</title>
           <link rel="icon" href="/favicon.ico" />
           <meta
-            property="og:description"
+            name="og:description"
             content="Catch up on all of your favorite twitter user's threads with ThreadBack"
           />
           <meta
@@ -65,8 +65,8 @@ export default function Thread() {
             name="keywords"
             content="twitter, twitter replies, twitter mentions, twitter thread"
           />
-          <meta property="og:type" content="article" />
-        </Head>
+          <meta name="og:type" content="article" />
+        </Head> */}
         <Page>
           <Container style={{ left: "50%" }}>
             <Page.Content>
@@ -95,12 +95,12 @@ export default function Thread() {
           <Head>
             <title>ThreadBack | {description}</title>
             <link rel="icon" href="/favicon.ico" />
-            <meta property="og:title" content={description} />
-            <meta property="og:image" content={thread.user.profilePhoto} />
-            <meta property="og:url" content={windowLocation} />
-            <meta property="og:description" content={description} />
-            <meta property="article:author" content={thread.user.link} />
-            <meta property="og:type" content="article" />
+            <meta name="og:title" content={description} />
+            <meta name="og:image" content={thread.user.profilePhoto} />
+            <meta name="og:url" content={windowLocation} />
+            <meta name="og:description" content={description} />
+            <meta name="article:author" content={thread.user.link} />
+            <meta name="og:type" content="article" />
           </Head>
           <Page>
             <Container style={{ margin: "0 auto" }}>
