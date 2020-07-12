@@ -1,4 +1,3 @@
-import Head from "next/head";
 import UserHead from "../../components/UserHead";
 import { useMutation } from "graphql-hooks";
 import { getAThreadQuery } from "../../queries/getAThreadQuery";
@@ -79,16 +78,6 @@ function Thread({ data, error, cid }) {
               handle: `@${thread.user.username}`,
             }}
           />
-          <Head>
-            <title>ThreadBack | {description}</title>
-            <link rel="icon" href="/favicon.ico" />
-            <meta name="og:title" content={description} />
-            <meta name="og:image" content={thread.user.profilePhoto} />
-            <meta name="og:url" content={windowLocation} />
-            <meta name="og:description" content={description} />
-            <meta name="article:author" content={thread.user.link} />
-            <meta name="og:type" content="article" />
-          </Head>
           <Page>
             <Container style={{ margin: "0 auto" }}>
               <Page.Content>
