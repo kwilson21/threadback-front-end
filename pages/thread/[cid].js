@@ -43,7 +43,7 @@ function Thread({ data, error, cid }) {
 
   const thread = items[0];
 
-  const tweetText = `${thread.tweets[0].text.slice(0, 120)}...`;
+  const tweetText = `${thread.tweets[0].text}...`;
 
   const description = `Thread by @${thread.user.username}: ${tweetText}`;
 
