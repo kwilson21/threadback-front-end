@@ -1,19 +1,17 @@
 import Head from "next/head";
 import UserHead from "../../components/UserHead";
-import { useQuery, useMutation } from "graphql-hooks";
+import { useMutation } from "graphql-hooks";
 import { getAThreadQuery } from "../../queries/getAThreadQuery";
 import {
   Grid,
   Container,
   useToasts,
-  Spinner,
   Page,
   Divider,
   Text,
 } from "@zeit-ui/react";
 import Error from "next/error";
 
-import { useRouter } from "next/router";
 import TweetGroup from "../../components/TweetGroup";
 import RefreshUserButton from "../../components/RefreshUserButton";
 import { Fragment } from "react";
@@ -21,17 +19,12 @@ import SearchBox from "../../components/SearchBox";
 import { refreshThreadsMutation } from "../../queries/refreshThreadsMutation";
 import Sticky from "react-stickynode";
 import useWindowLocation from "../../hooks/useWindowLocation";
+import { request } from "graphql-request";
+import { NextSeo } from "next-seo";
 
-export default function Thread() {
-  const router = useRouter();
-  const { cid } = router.query;
-
+function Thread({ data, error, cid }) {
   const [toasts, setToast] = useToasts();
   const windowLocation = useWindowLocation();
-
-  const { loading, error, data } = useQuery(getAThreadQuery, {
-    variables: { offset: 0, limit: 1, conversationIds: [cid] },
-  });
 
   const [refreshUser, refreshRes] = useMutation(refreshThreadsMutation, {
     variables: {
@@ -45,20 +38,6 @@ export default function Thread() {
       text: "An error has occured while fetching data",
       type: "error",
     });
-  }
-
-  if (loading) {
-    return (
-      <Fragment>
-        <Page>
-          <Container style={{ left: "50%" }}>
-            <Page.Content>
-              <Spinner size="large" />
-            </Page.Content>
-          </Container>
-        </Page>
-      </Fragment>
-    );
   }
 
   const { items } = data.threads;
@@ -97,7 +76,7 @@ export default function Thread() {
               },
             }}
             twitter={{
-              handle: `@${username}`,
+              handle: `@${thread.user.username}`,
             }}
           />
           <Head>
@@ -154,3 +133,22 @@ export default function Thread() {
     </Fragment>
   );
 }
+
+export async function getServerSideProps(context) {
+  try {
+    const res = await request(
+      process.env.NEXT_PUBLIC_GRAPHQL_URL,
+      getAThreadQuery,
+      { offset: 0, limit: 1, conversationIds: [context.params.cid] }
+    );
+    return {
+      props: { data: res, cid: context.params.cid },
+    };
+  } catch (err) {
+    return {
+      props: { data: null, error: err, cid: context.params.cid },
+    };
+  }
+}
+
+export default Thread;

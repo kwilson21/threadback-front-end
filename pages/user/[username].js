@@ -1,4 +1,3 @@
-import Head from "next/head";
 import UserHead from "../../components/UserHead";
 import {
   Grid,
@@ -12,7 +11,6 @@ import {
   Select,
   Col,
 } from "@zeit-ui/react";
-import { useRouter } from "next/router";
 import ThreadCardGroup from "../../components/ThreadCardGroup";
 import RefreshUserButton from "../../components/RefreshUserButton";
 import { getAUserQuery } from "../../queries/getAUserQuery";
@@ -75,20 +73,6 @@ function User({ data, error, username }) {
       type: "error",
     });
   }
-
-  // if (loading) {
-  //   return (
-  //     <Fragment>
-  //       <Page>
-  //         <Container style={{ left: "50%" }}>
-  //           <Page.Content>
-  //             <Spinner size="large" />
-  //           </Page.Content>
-  //         </Container>
-  //       </Page>
-  //     </Fragment>
-  //   );
-  // }
 
   const { items } = data.users;
 
