@@ -17,7 +17,6 @@ import ThreadCardGroup from "../../components/ThreadCardGroup";
 import RefreshUserButton from "../../components/RefreshUserButton";
 import { getAUserQuery } from "../../queries/getAUserQuery";
 import { getUserThreadsQuery } from "../../queries/getUserThreadsQuery";
-import { allThreadsQuery } from "../../queries/allThreadsQuery";
 import { useQuery, useMutation } from "graphql-hooks";
 import { Fragment } from "react";
 import Error from "next/error";
@@ -33,6 +32,7 @@ import { isMobile, isBrowser } from "react-device-detect";
 import { ArrowLeft, ArrowRight } from "@zeit-ui/react-icons";
 import Scroll from "react-scroll";
 import { NextSeo } from "next-seo";
+import { request } from "graphql-request";
 
 const updateData = (prevData, data) => {
   return {
@@ -43,10 +43,7 @@ const updateData = (prevData, data) => {
   };
 };
 
-export default function User() {
-  const router = useRouter();
-  const { username } = router.query;
-
+function User({ data, error, username }) {
   const [threadView, setThreadView] = useState("multiple");
   const [toasts, setToast] = useToasts();
   const { visible, setVisible, bindings } = useModal(true);
@@ -55,10 +52,6 @@ export default function User() {
 
   const scroller = Scroll.scroller;
   const Element = Scroll.Element;
-
-  const { loading, error, data } = useQuery(getAUserQuery, {
-    variables: { offset: 0, limit: 1, usernames: [username] },
-  });
 
   let res;
   const limit = 15;
@@ -83,19 +76,19 @@ export default function User() {
     });
   }
 
-  if (loading) {
-    return (
-      <Fragment>
-        <Page>
-          <Container style={{ left: "50%" }}>
-            <Page.Content>
-              <Spinner size="large" />
-            </Page.Content>
-          </Container>
-        </Page>
-      </Fragment>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <Fragment>
+  //       <Page>
+  //         <Container style={{ left: "50%" }}>
+  //           <Page.Content>
+  //             <Spinner size="large" />
+  //           </Page.Content>
+  //         </Container>
+  //       </Page>
+  //     </Fragment>
+  //   );
+  // }
 
   const { items } = data.users;
 
@@ -396,3 +389,26 @@ export default function User() {
     </Fragment>
   );
 }
+
+export async function getServerSideProps(context) {
+  try {
+    const res = await request(
+      process.env.NEXT_PUBLIC_GRAPHQL_URL,
+      getAUserQuery,
+      {
+        offset: 0,
+        limit: 1,
+        usernames: [context.params.username],
+      }
+    );
+    return {
+      props: { data: res, username: context.params.username },
+    };
+  } catch (err) {
+    return {
+      props: { data: null, error: err, username: context.params.username },
+    };
+  }
+}
+
+export default User;
